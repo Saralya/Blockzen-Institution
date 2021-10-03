@@ -1,0 +1,10 @@
+{% if headerText == "LoadProductGroup" %}
+    <option value="">-Select Product Group-</option>
+    {% for prod in products %}
+        <option value="{{ prod.id }}">{{ prod.groupName }}</option>
+    {% endfor %}
+
+
+{% else %}
+
+{% endif %}

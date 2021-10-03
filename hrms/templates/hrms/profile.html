@@ -1,0 +1,390 @@
+{% extends 'administration/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<!-- ============================================================== -->
+<!-- Bread crumb and right sidebar toggle -->
+<!-- ============================================================== -->
+<div class="row page-titles">
+    <div class="col-md-5 col-12 align-self-center">
+        <h3 class="text-themecolor mb-0">Profile Page</h3>
+        <ol class="breadcrumb mb-0 p-0 bg-transparent">
+            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+            <li class="breadcrumb-item active">Profile Page</li>
+        </ol>
+    </div>
+    <div class="col-md-7 col-12 align-self-center d-none d-md-block">
+        <div class="d-flex mt-2 justify-content-end">
+            <div class="d-flex mr-3 ml-2">
+                <div class="chart-text mr-2">
+                    <h6 class="mb-0"><small>THIS MONTH</small></h6>
+                    <h4 class="mt-0 text-info">$58,356</h4>
+                </div>
+                <div class="spark-chart">
+                    <div id="monthchart"></div>
+                </div>
+            </div>
+            <div class="d-flex ml-2">
+                <div class="chart-text mr-2">
+                    <h6 class="mb-0"><small>LAST MONTH</small></h6>
+                    <h4 class="mt-0 text-primary">$48,356</h4>
+                </div>
+                <div class="spark-chart">
+                    <div id="lastmonthchart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ============================================================== -->
+<!-- End Bread crumb and right sidebar toggle -->
+<!-- ============================================================== -->
+<!-- ============================================================== -->
+<!-- Container fluid  -->
+<!-- ============================================================== -->
+<div class="container-fluid">
+    <!-- ============================================================== -->
+    <!-- Start Page Content -->
+    <!-- ============================================================== -->
+    <!-- Row -->
+
+    <div class="row">
+        <!-- Column -->
+        <div class="col-lg-4 col-xlg-3 col-md-5">
+            <div class="card">
+                <div class="card-body">
+                    <center class="mt-4"> <img src="{{ emp.imageURL }}" class="rounded-circle" width="150" />
+                        <h4 class="card-title mt-2">{{ emp.get_emp_name }}</h4>
+                        <h6 class="card-subtitle">{{ emp.designations }}</h6>
+                        <h6 class="card-subtitle">{{ emp.departments }}, {{ emp.departments.divisions }}</h6>
+                        <hr>
+                        <small class="text-muted">Email address </small>
+                    <h6>{{ emp.user.email }}</h6> <small class="text-muted pt-4 db">Mobile</small>
+                    <h6>{{ emp.mobile }}</h6>
+                        
+                    </center>
+                </div>
+                
+            </div>
+        </div>
+        <!-- Column -->
+        <!-- Column -->
+        <div class="col-lg-8 col-xlg-9 col-md-7">
+            <div class="card">
+                <!-- Tabs -->
+                <ul class="nav nav-pills custom-pills" id="pills-tab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="pills-timeline-tab" data-toggle="pill" href="#emp-profile"
+                            role="tab" aria-controls="pills-timeline" aria-selected="true">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#emp-address" role="tab"
+                            aria-controls="pills-profile" aria-selected="false">Address</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="pills-setting-tab" data-toggle="pill" href="#emp-education" role="tab"
+                            aria-controls="pills-setting" aria-selected="false">Education</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="pills-setting-tab" data-toggle="pill" href="#emp-work" role="tab"
+                            aria-controls="pills-setting" aria-selected="false">Work History</a>
+                    </li>
+                </ul>
+                <!-- Tabs -->
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="emp-profile" role="tabpanel"
+                        aria-labelledby="pills-timeline-tab">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3 col-xs-6 b-r"> <strong>Employee ID</strong>
+                                    <br>
+                                    <p class="text-muted">{{ emp.empno }}</p>
+                                </div>
+                                <div class="col-md-3 col-xs-6 b-r"> <strong>Gender</strong>
+                                    <br>
+                                    <p class="text-muted">{{ emp.gender }}</p>
+                                </div>
+                                <div class="col-md-3 col-xs-6 b-r"> <strong>Marital Status</strong>
+                                    <br>
+                                    <p class="text-muted">{{ emp.maritalstatus }}</p>
+                                </div>
+                                <div class="col-md-3 col-xs-6"> <strong>Nationality</strong>
+                                    <br>
+                                    <p class="text-muted">{{ emp.nationality }}</p>
+                                </div>
+                                <hr>
+                                
+                                <div class="col-md-3 col-xs-6 b-r"> <strong>Date of Birth</strong>
+                                    <br>
+                                    <p class="text-muted">{{ emp.birthDate }}</p>
+                                </div>
+                                <div class="col-md-3 col-xs-6 b-r"> <strong>Blood Group</strong>
+                                    <br>
+                                    <p class="text-muted">{{ emp.bloodGroup }}</p>
+                                </div>
+                                <div class="col-md-3 col-xs-6 b-r"> <strong>{{ emp.identitytypes }}</strong>
+                                    <br>
+                                    <p class="text-muted">{{ emp.identityValue }}</p>
+                                </div>
+                                <div class="col-md-3 col-xs-6 b-r"> <strong>Religion</strong>
+                                    <br>
+                                    <p class="text-muted">{{ emp.religion }}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-3 col-xs-6 b-r"> <strong>Joining Date</strong>
+                                    <br>
+                                    <p class="text-muted">{{ emp.joiningDate }}</p>
+                                </div>
+                                <div class="col-md-3 col-xs-6 b-r"> <strong>Job Grade</strong>
+                                    <br>
+                                    <p class="text-muted">{{ emp.grades }}</p>
+                                </div>
+                                <div class="col-md-3 col-xs-6 b-r"> <strong>Branch</strong>
+                                    <br>
+                                    <p class="text-muted">{{ emp.branch }}</p>
+                                </div>
+                                <div class="col-md-3 col-xs-6"> <strong>Probation Period</strong>
+                                    <br>
+                                    <p class="text-muted">{{ emp.probationPeriod }} Months</p>
+                                </div>
+                                <hr>
+                                
+                                <div class="col-md-6 col-xs-6 b-r"> <strong>Line Manager</strong>
+                                    <br>
+                                    <p class="text-muted">{{ emp.manager.get_emp_name }}</p>
+                                </div>
+                                <div class="col-md-3 col-xs-6 b-r"> <strong>Status</strong>
+                                    <br>
+                                    <p class="text-muted">{{ emp.status }}</p>
+                                </div>
+                                <div class="col-md-3 col-xs-6 b-r"> <strong>Type</strong>
+                                    <br>
+                                    <p class="text-muted">{{ emp.employmenttype }}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-12 col-xs-12 b-r"> <strong>Emergency Contact</strong>
+                                    <br>
+                                    {% if emergencycontact == None %}
+                                        <div class="col-md-12 text-right d-flex justify-content-md-end justify-content-center mt-3 mt-md-0">
+                                            <a class="btn btn-info" href="{% url 'createemergencycontact' emp.id %}">
+                                                <i class="mdi mdi-plus-box font-16 mr-1"></i>&nbsp;Add Emergency Contact
+                                            </a>
+                                        </div>
+                                    {% else %}
+                                        <p class="text-muted">Name: {{ emergencycontact.contactName }}
+                                            <br>
+                                            Mobile: {{ emergencycontact.mobile }}
+                                            <br>
+                                            Relation: {{ emergencycontact.relation }}
+                                            <br>
+                                            Address: {{ emergencycontact.address }}
+                                            <br>
+                                            {{ emergencycontact.area }}, {{ emergencycontact.cities }}, {{ emergencycontact.cities.regions }} , {{ emergencycontact.cities.regions.countries }} 
+                                            <br><br>
+                                            <a class="btn btn-info" href="{% url 'editemergencycontact' emp.id emergencycontact.id %}">
+                                                <i class="fas fa-edit font-16 mr-1"></i>&nbsp;Edit
+                                            </a>
+                                        </p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="emp-address" role="tabpanel" aria-labelledby="pills-profile-tab">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 col-xs-6 b-r"> <strong>Present Address</strong>
+                                    <hr>
+                                    {% if presentaddress %}
+                                    {% for address in presentaddress %}
+                                    <p class="text-muted">
+                                        {{ address.address }}
+                                        <br>
+                                        {{ address.area }}, {{ address.cities }} - {{ address.postCode }}
+                                        <br>
+                                        {{ address.cities.regions }}, {{ address.cities.regions.countries }}
+                                        <br>
+                                    <div class="col-md-12">
+                                        <a class="btn btn-info" href="{% url 'editaddress' address.id %}">
+                                            <i class="fas fa-edit font-16 mr-1"></i>&nbsp;Edit
+                                        </a>
+                                    </div>
+                                    </p>
+                                    {% endfor %}
+                                    {% else %}
+                                    <div class="col-md-12 text-right d-flex justify-content-md-end justify-content-center mt-3 mt-md-0">
+                                        <a class="btn btn-info" href="{% url 'createpresentaddress' emp.id 'Present' %}">
+                                            <i class="mdi mdi-plus-box font-16 mr-1"></i>&nbsp;Add Permanent Address
+                                        </a>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6 col-xs-6 b-r"> <strong>Permanent Address</strong>
+                                    <hr>
+                                    {% if permanentaddress %}
+                                    {% for address in permanentaddress %}
+                                    <p class="text-muted">
+                                        {{ address.address }}
+                                        <br>
+                                        {{ address.area }}, {{ address.cities }} - {{ address.postCode }}
+                                        <br>
+                                        {{ address.cities.regions }}, {{ address.cities.regions.countries }}
+                                        <br>
+                                    <div class="col-md-12">
+                                        <a class="btn btn-info" href="{% url 'editaddress' address.id %}">
+                                            <i class="fas fa-edit font-16 mr-1"></i>&nbsp;Edit
+                                        </a>
+                                    </div>
+                                    </p>
+                                    {% endfor %}
+                                    {% else %}
+                                    <div class="col-md-12 text-right d-flex justify-content-md-end justify-content-center mt-3 mt-md-0">
+                                        <a class="btn btn-info" href="{% url 'createpresentaddress' emp.id 'Permanent' %}">
+                                            <i class="mdi mdi-plus-box font-16 mr-1"></i>&nbsp;Add Permanent Address
+                                        </a>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="emp-education" role="tabpanel" aria-labelledby="pills-setting-tab">
+                        <div class="card-body">
+                            <div class="card">
+                                <div class="card-body">
+                                    
+                                    <div class="col-md-12 text-left d-flex justify-content-md-end justify-content-center mt-3 mt-md-0">
+                                        <a class="btn btn-info" href="{% url 'createempdegree' emp.id %}">
+                                            <i class="mdi mdi-plus-box font-16 mr-1"></i>&nbsp;Add New
+                                        </a>
+                                    </div>
+                                    <br>
+                                    <table data-toggle="table" data-height="250" data-mobile-responsive="true" class="table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Degree</th>
+                                                <th>Institution</th>
+                                                <th>Passing Year</th>
+                                                <th>Concentration</th>
+                                                <th>Result</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for empdeg in empdegree %}
+                                            <tr id="tr-id-1" class="tr-class-1">
+                                                <td>{{ empdeg.degree }}</td>
+                                                <td>{{ empdeg.institution }}</td>
+                                                <td>{{ empdeg.passingYear }}</td>
+                                                <td>{{ empdeg.concentration }}</td>
+                                                <td>{{ empdeg.result }}</td>
+                                            </tr>
+                                            {% empty %}
+                                            <tr>
+                                                <td colspan="5">No Data</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+
+                    <div class="tab-pane fade" id="emp-work" role="tabpanel" aria-labelledby="pills-setting-tab">
+                        <div class="card-body">
+                            <div class="card">
+                                <div class="card-body">
+                                    
+                                    <div class="col-md-12 text-left d-flex justify-content-md-end justify-content-center mt-3 mt-md-0">
+                                        <a class="btn btn-info" href="{% url 'createempwork' emp.id %}">
+                                            <i class="mdi mdi-plus-box font-16 mr-1"></i>&nbsp;Add New
+                                        </a>
+                                    </div>
+                                    <br>
+                                    <table data-toggle="table" data-height="250" data-mobile-responsive="true" class="table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Company</th>
+                                                <th>Designation</th>
+                                                <th>Start Date</th>
+                                                <th>End Date</th>
+                                                <th>Address</th>
+                                                <th>City</th>
+                                                <th>Country</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for ework in empwork %}
+                                            <tr id="tr-id-1" class="tr-class-1">
+                                                <td>{{ ework.organization }}</td>
+                                                <td>{{ ework.designation }}</td>
+                                                <td>{{ ework.startDate }}</td>
+                                                <td>{{ ework.endDate }}</td>
+                                                <td>{{ ework.address }}</td>
+                                                <td>{{ ework.cities }}</td>
+                                                <td>{{ ework.cities.regions.countries }}</td>
+                                            </tr>
+                                            {% empty %}
+                                            <tr>
+                                                <td colspan="7" style="text-align: center;">No Data</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+        </div>
+        <!-- Column -->
+    </div>
+
+</div>
+<!-- Row -->
+<!-- ============================================================== -->
+<!-- End PAge Content -->
+<!-- ============================================================== -->
+<!-- ============================================================== -->
+<!-- Right sidebar -->
+<!-- ============================================================== -->
+<!-- .right-sidebar -->
+<!-- ============================================================== -->
+<!-- End Right sidebar -->
+<!-- ============================================================== -->
+
+
+
+
+
+
+
+<script src="{% static 'blockzen/assets/libs/jquery/dist/jquery.min.js' %}"></script>
+
+<script src="{% static 'blockzen/assets/libs/bootstrap-table/dist/bootstrap-table.min.js' %}"></script>
+<script src="{% static 'blockzen/assets/libs/bootstrap-table/dist/bootstrap-table-locale-all.min.js' %}"></script>
+<!--<script src="{% static 'blockzen/assets/libs/bootstrap-table/dist/extensions/export/bootstrap-table-export.min.js' %}"></script> -->
+<script src="{% static 'blockzen/js/pages/tables/bootstrap-table.init.js' %}"></script>
+
+
+
+
+
+
+{% endblock %}

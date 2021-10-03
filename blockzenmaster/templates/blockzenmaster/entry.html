@@ -1,0 +1,737 @@
+{% extends 'blockzenmaster/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<!-- ============================================================== -->
+<!-- Bread crumb and right sidebar toggle -->
+<!-- ============================================================== -->
+<div class="row page-titles">
+    <div class="col-md-5 col-12 align-self-center">
+        <h3 class="text-themecolor mb-0">{{ headerText }}</h3>
+        <ol class="breadcrumb mb-0 p-0 bg-transparent">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+            <li class="breadcrumb-item active">{{ headerText }}</li>
+        </ol>
+    </div>
+    <div class="col-md-7 col-12 align-self-center d-none d-md-block">
+        <div class="d-flex mt-2 justify-content-end">
+            <!--<div class="d-flex mr-3 ml-2">
+                <div class="chart-text mr-2">
+                    <h6 class="mb-0"><small>THIS MONTH</small></h6>
+                    <h4 class="mt-0 text-info">$58,356</h4>
+                </div>
+                <div class="spark-chart">
+                    <div id="monthchart"></div>
+                </div>
+            </div>
+            <div class="d-flex ml-2">
+                <div class="chart-text mr-2">
+                    <h6 class="mb-0"><small>LAST MONTH</small></h6>
+                    <h4 class="mt-0 text-primary">$48,356</h4>
+                </div>
+                <div class="spark-chart">
+                    <div id="lastmonthchart"></div>
+                </div>
+            </div>-->
+        </div>
+    </div>
+</div>
+<!-- ============================================================== -->
+<!-- End Bread crumb and right sidebar toggle -->
+<!-- ============================================================== -->
+
+<!-- ============================================================== -->
+<!-- Container fluid  -->
+<!-- ============================================================== -->
+<div class="container-fluid">
+    <!-- ============================================================== -->
+    <!-- Start Page Content -->
+    <!-- ============================================================== -->
+    <!-- row -->
+    <div class="row">
+        <div class="col-sm-12 col-lg-12">
+            <div class="card">
+
+
+                {% if headerText == "Delete" %}
+                <br>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <h4>Do you want to delete the {{ deletedItem }} "{{ deletedVal }}"?</h4>
+                        <p>
+                            <button type="submit" class="btn btn-info waves-effect waves-light">Yes</button>
+                            <a href="#" onclick="javascript:window.history.back(-1);return false;"
+                                            class="btn btn-dark waves-effect waves-light">Cancel</a>
+                        </p>
+                    </form>
+
+                    <div>
+                        <br>
+                        {% for message in messages %}
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            {{message}}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+
+
+                {% elif headerText == "Uesr Group" %}
+
+
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    <label for="normal-rounded-input">Group Name</label>
+                                    <input class="form-control" type="text" id="strGroupName" name="strGroupName"
+                                        placeholder="Group Name">
+                                </div>
+                                <hr>
+                                <div class="action-form">
+                                    <div class="form-group mb-0 text-left">
+                                        <button type="submit"
+                                            class="btn btn-info waves-effect waves-light">Save</button>
+                                        <a href="#" onclick="javascript:window.history.back(-1);return false;"
+                                            class="btn btn-dark waves-effect waves-light">Cancel</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+
+                <div>
+                    <br>
+                    {% for message in messages %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        {{message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endfor %}
+                </div>
+
+
+
+
+                {% elif headerText == 'Add User to Groups' %}
+
+
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    <label>Group Name</label>
+                                    <input class="form-control" type="text" value="{{ groups.name }}">
+                                </div>
+                                <div class="form-group">
+                                    <label>User Name</label>
+                                    <select class="form-control" id="id_user" name="username">
+                                        <option>Select Users</option>
+                                        {% for usr in users %}
+                                        <option>{{ usr.username }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="action-form">
+                                    <div class="form-group mb-0 text-left">
+                                        <button type="submit"
+                                            class="btn btn-info waves-effect waves-light">Save</button>
+                                        <a href="#" onclick="javascript:window.history.back(-1);return false;"
+                                            class="btn btn-dark waves-effect waves-light">Cancel</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+
+
+
+
+                {% elif headerText == "Attendance" %}
+
+
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    <label for="normal-rounded-input">Group Name</label>
+                                    <input class="form-control" type="text" id="strGroupName" name="strGroupName"
+                                        placeholder="Group Name">
+                                </div>
+                                <hr>
+                                <div class="action-form">
+                                    <div class="form-group mb-0 text-left">
+                                        <button type="submit"
+                                            class="btn btn-info waves-effect waves-light">Save</button>
+                                        <a href="#" onclick="javascript:window.history.back(-1);return false;"
+                                            class="btn btn-dark waves-effect waves-light">Cancel</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+
+                <div>
+                    <br>
+                    {% for message in messages %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        {{message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endfor %}
+                </div>
+
+
+
+
+                {% elif headerText == "Product" %}
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <form method="POST" id="productForm" action="" enctype="multipart/form-data"
+                        data-prodgroup-url="{% url 'ajax_load_productgroup' %}">
+                        {% csrf_token %}
+                        {{ form }}
+                        <br>
+                        <div>
+                            <input type="submit" class="btn btn-primary" value="Submit">
+                        </div>
+                    </form>
+                    <div>
+                        <br>
+                        {% for message in messages %}
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            {{message}}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                {% elif headerText == "Search Students" %}
+
+                <!--for filtering, use method="GET"-->
+                <form method="GET" enctype="multipart/form-data" id="studentregistrationForm" data-branch-url="{% url 'ajax_load_branches' %}" data-class-url="{% url 'ajax_load_classes' %}" data-section-url="{% url 'ajax_load_sections' %}">   
+                    {% csrf_token %}
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12">
+                                
+                                    
+                                    {{ myFilter.form.organization|as_crispy_field }}
+                                    {{ myFilter.form.branch|as_crispy_field }}
+                                    {{ myFilter.form.classes|as_crispy_field }}
+                                    {{ myFilter.form.section|as_crispy_field }}
+                                    {{ myFilter.form.roll|as_crispy_field }}
+
+                                    <button class="btn btn-primary" type="submit">Search</button>
+                                
+                            </div>
+                        </div>
+
+                        <hr>
+                        
+                    </div>
+                </form>
+
+                <div class="row">
+                    <div class="col-md">
+                        <div class="card card-body">
+                            <table class="table table-sm">
+                                <tr>
+                                    <th>Student</th>
+                                    <th>Organization</th>
+                                    <th>Branch</th>
+                                    <th>Class</th>
+                                    <th>Section</th>
+                                    <th>Roll</th>
+                                    
+                                </tr>
+                
+                                {% for student in student %}
+                
+                                <tr>
+                                    <td>{{student.student}}</td>
+                                    <td>{{student.organization}}</td>
+                                    <td>{{student.branch}}</td>
+                                    <td>{{student.classes}}</td>
+                                    <td>{{student.section}}</td>
+                                    <td>{{student.roll}}</td>
+                                    <td>
+                                        <a data-toggle="tooltip" data-placement="top" title="Student Details"
+                                            href="{% url 'viewdetails' student.student.id %}"> <!--student field dhore Students model e giye sekhan theke id ante hobe-->
+                                            <i class="fa fa-info-circle"></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a data-toggle="tooltip" data-placement="top" title="Edit Student Registration"
+                                            href="{% url 'editstudentregistration' student.id %}">
+                                            <i class="far fa-edit"></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a data-toggle="tooltip" data-placement="top" title="Delete Student Registration"
+                                            href="{% url 'deletestudentregistration' student.id %}">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                    </td>
+                                  
+                                </tr>
+                                {% empty %}
+                                    <tr>
+                                        <td colspan="8">No Records</td>
+                                    </tr>
+                                {% endfor %}
+                
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                {% elif headerText == "Student Attendance" %}
+                <form method="GET" enctype="multipart/form-data" id="studentregistrationForm" data-branch-url="{% url 'ajax_load_branches' %}" data-class-url="{% url 'ajax_load_classes' %}" data-section-url="{% url 'ajax_load_sections' %}">   
+                    {% csrf_token %}
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12">
+                                
+                                    
+                                    {{ myFilter.form.organization|as_crispy_field }}
+                                    {{ myFilter.form.branch|as_crispy_field }}
+                                    {{ myFilter.form.classes|as_crispy_field }}
+                                    {{ myFilter.form.section|as_crispy_field }}
+                                    
+
+                                    <button class="btn btn-primary" type="submit">Search</button>
+                                
+                            </div>
+                        </div>
+
+                        <hr>
+                        
+                    </div>
+                </form>
+
+                <div class="row">
+                    <div class="col-md">
+                        <div class="card card-body">
+                            <table class="table table-sm">
+                                <tr>
+                                    <th>Student</th>
+                                    <th>Organization</th>
+                                    <th>Branch</th>
+                                    <th>Class</th>
+                                    <th>Section</th>
+                                    <th>Roll</th><br>
+                                    <th>Attendance</th>
+                                    
+                                </tr>
+                
+                                {% for student in student %}
+                
+                                <tr>
+                                    <td>{{student.student}}</td>
+                                    <td>{{student.organization}}</td>
+                                    <td>{{student.branch}}</td>
+                                    <td>{{student.classes}}</td>
+                                    <td>{{student.section}}</td>
+                                    <td>{{student.roll}}</td>
+
+                                    
+                                   
+                                    
+                                    
+                                    <td class="attendance_pages" id="{{student.student.id}}">
+                                        <input id="rd1" name="attendance" type="radio" value="Present"  > Present </input>
+                                        <input id="rd2" name="attendance" type="radio" value="Absent" > Absent </input>
+                                    </td>
+
+                                    
+                                    <!-- {% with my_array='{{student.student.id}}' %}
+                                        {% for icon in my_array.split %}
+                                            
+                                            <div>{{icon}}</div>
+                                        {% endfor %}
+                                       
+                                        
+                                    {% endwith %} -->
+                                
+                                
+                                    
+                                    
+                                  
+                                </tr>
+                                {% empty %}
+                                    <tr>
+                                        <td colspan="8">No Records</td>
+                                    </tr>
+                                {% endfor %}
+                                
+                
+                            </table>
+                            <div class="action-form">
+                                <div class="form-group mb-0 text-left">
+                                    
+                                    <button id="save" class="btn btn-info waves-effect waves-light"  >Save</button>
+                                    <a href="#" onclick="javascript:window.history.back(-1);return false;"
+                                        class="btn btn-dark waves-effect waves-light">Cancel</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {% elif headerText == "Class Subject" %}
+                <form method="POST" enctype="multipart/form-data" id="classsubjectForm" data-teacher-url="{% url 'ajax_load_teachers' %}" >
+                    {% csrf_token %}
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    <!--<label for="inputname" class="control-label col-form-label">First Name</label> -->
+                                    <!--<input type="text" class="form-control" id="inputname" placeholder="First Name Here">-->
+                                    {{ form }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+                        <div class="action-form">
+                            <div class="form-group mb-0 text-left">
+                                <button type="submit" class="btn btn-info waves-effect waves-light">Save</button>
+                                <a href="#" onclick="javascript:window.history.back(-1);return false;"
+                                    class="btn btn-dark waves-effect waves-light">Cancel</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div>
+                    <br>
+                    {% for message in messages %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        {{message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                {% elif headerText == "Student Registration" %}
+                <form method="POST" enctype="multipart/form-data" id="studentregistrationForm" data-branch-url="{% url 'ajax_load_branches' %}" data-class-url="{% url 'ajax_load_classes' %}" data-section-url="{% url 'ajax_load_sections' %}" >
+                    {% csrf_token %}
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    <!--<label for="inputname" class="control-label col-form-label">First Name</label> -->
+                                    <!--<input type="text" class="form-control" id="inputname" placeholder="First Name Here">-->
+                                    {{ form }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+                        <div class="action-form">
+                            <div class="form-group mb-0 text-left">
+                                <button type="submit" class="btn btn-info waves-effect waves-light">Save</button>
+                                <a href="#" onclick="javascript:window.history.back(-1);return false;"
+                                    class="btn btn-dark waves-effect waves-light">Cancel</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div>
+                    <br>
+                    {% for message in messages %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        {{message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endfor %}
+                </div>
+
+
+
+                {% else %}
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    <!--<label for="inputname" class="control-label col-form-label">First Name</label> -->
+                                    <!--<input type="text" class="form-control" id="inputname" placeholder="First Name Here">-->
+                                    {{ form }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+                        <div class="action-form">
+                            <div class="form-group mb-0 text-left">
+                                <button type="submit" class="btn btn-info waves-effect waves-light">Save</button>
+                                <a href="#" onclick="javascript:window.history.back(-1);return false;"
+                                    class="btn btn-dark waves-effect waves-light">Cancel</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div>
+                    <br>
+                    {% for message in messages %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        {{message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <!-- End row -->
+    <!-- ============================================================== -->
+    <!-- End PAge Content -->
+    <!-- ============================================================== -->
+</div>
+
+
+<!-- ############################################################################# -->
+<!-- SCRIPTS -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var url = $("#productForm").attr("data-prodgroup-url");  // get the url of the `load_cities` view
+        //var merchantId = "{{ emp.sex }}";  // get the selected country ID from the HTML input
+
+        $.ajax({                       // initialize an AJAX request
+            url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+
+            success: function (data) {   // `data` is the return of the `load_cities` view function
+                $("#id_productgroup").html(data);  // replace the contents of the city input with the data that came from the server
+            }
+        });
+
+    });
+
+</script>
+
+<script>
+    $("#id_organization").change(function(){
+     const url = $("#studentregistrationForm").attr("data-branch-url");
+     const orgId = $(this).val();
+
+     $.ajax({
+
+          url: url,
+          data: {
+              'organization': orgId
+                              
+          },
+          success: function(data){
+              console.log(data);
+
+              $("#id_branch").html(data);
+          }
+
+     });
+
+
+
+    });
+</script>
+
+<script>
+    $("#id_branch").change(function(){
+     const url = $("#studentregistrationForm").attr("data-class-url");
+     const branchId = $(this).val();
+
+     $.ajax({
+
+          url: url,
+          data: {
+              'branch': branchId
+                              
+          },
+          success: function(data){
+              console.log(data);
+
+              $("#id_classes").html(data);
+          }
+
+     });
+
+
+
+    });
+</script>
+
+
+<script>
+    $("#id_classes").change(function(){
+     const url = $("#studentregistrationForm").attr("data-section-url");
+     const classId = $(this).val();
+
+     $.ajax({
+
+          url: url,
+          data: {
+              'classes': classId
+                              
+          },
+          success: function(data){
+              console.log(data);
+
+              $("#id_section").html(data);
+          }
+
+     });
+
+
+
+    });
+</script>
+
+
+<script>
+    $("#id_subject").change(function(){
+     const url = $("#classsubjectForm").attr("data-teacher-url");
+     const subjectId = $(this).val();
+
+     $.ajax({
+
+          url: url,
+          data: {
+              'subject': subjectId
+                              
+          },
+          success: function(data){
+              console.log(data);
+
+              $("#id_teacher").html(data);
+          }
+
+     });
+
+
+
+    });
+</script>
+
+<!-- <script>
+    function attfunction(varCode)
+    {
+        var rd1 = document.getElementById("rd1");
+        var rd2 = document.getElementById("rd2");
+
+        if(rd1.checked==true)
+            alert("Student is "+rd1.value);
+
+        else if(rd2.checked==true)
+            alert("Student is "+rd2.value);
+
+        else
+            alert("not checked");
+    }
+
+
+</script> -->
+
+<!-- <script>
+
+function PresentFunction(varCode){
+     
+    console.log(varCode);
+    
+    
+    var rd1 = document.getElementById("rd1");
+    const val1 = rd1.value
+    console.log(rd1.value)
+    
+
+    
+    $.ajax({
+
+        url: 'saveattendance',
+        data: {
+            'userId': varCode,
+            'attval': val1
+
+                                
+        },
+        success: function(data){
+            console.log(data);
+
+                
+        }
+
+    });
+
+    
+
+
+
+};
+</script> -->
+
+
+<script>
+    $(document).ready(function(){
+        $("#save").click(function(){
+            var attendancelist = [];
+            $(".attendance_pages").each(function(){
+                var studentId = $(this).attr("id");
+                var attval = $("input[name='attendance']:checked", $(this)).val();
+                
+
+                if(attval !== undefined){
+                    attendancelist.push({
+                        studentId: studentId,
+                        attval: attval
+                    });
+                    
+                }
+            });
+            console.log(attendancelist);
+        });
+    });
+
+</script>  
+
+
+{% endblock %}

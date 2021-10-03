@@ -1,0 +1,359 @@
+{% load static %}
+
+<aside class="left-sidebar">
+    <!-- Sidebar scroll-->
+    <div class="scroll-sidebar">
+        <!-- User profile -->
+        <div class="user-profile position-relative">
+            <!-- User profile image -->
+            <!--<div class="profile-img"> <img src="../assets/images/users/profile.png" alt="user" class="w-100" /> </div> -->
+            <!-- User profile text-->
+            <div class="profile-text pt-1"> 
+                <a href="#" class="dropdown-toggle u-dropdown w-100 text-white d-block position-relative" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">{{ request.user.first_name }} {{ request.user.last_name }}</a>
+                <div class="dropdown-menu animated flipInY"> 
+                    <a href="#" class="dropdown-item"><i class="ti-user"></i>
+                        My Profile
+                    </a>
+                    <a href="{% url 'changepassword' %}" class="dropdown-item"><i class="ti-lock"></i> Change Password </a>                    
+                    <div class="dropdown-divider"></div> 
+                    <a href="{% url 'logout' %}" class="dropdown-item"><i class="fa fa-power-off"></i> Logout</a>
+                </div>
+            </div>
+        </div>
+        <!-- End User profile text-->
+        <!-- Sidebar navigation-->
+        <nav class="sidebar-nav">
+            <ul id="sidebarnav">
+                <li class="nav-small-cap">
+                    <i class="mdi mdi-dots-horizontal"></i>
+                    <span class="hide-menu">Personal</span>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
+                        aria-expanded="false">
+                        <i class="mdi mdi-gauge"></i>
+                        <span class="hide-menu">Dashboard </span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse  first-level">
+                        <li class="sidebar-item">
+                            <a href="index.html" class="sidebar-link">
+                                <i class="mdi mdi-adjust"></i>
+                                <span class="hide-menu"> Dashboard 1 </span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="index2.html" class="sidebar-link">
+                                <i class="mdi mdi-adjust"></i>
+                                <span class="hide-menu"> Dashboard 2 </span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="index3.html" class="sidebar-link">
+                                <i class="mdi mdi-adjust"></i>
+                                <span class="hide-menu"> Dashboard 3 </span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="index4.html" class="sidebar-link">
+                                <i class="mdi mdi-adjust"></i>
+                                <span class="hide-menu"> Dashboard 4 </span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="index5.html" class="sidebar-link">
+                                <i class="mdi mdi-adjust"></i>
+                                <span class="hide-menu"> Dashboard 5 </span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="index6.html" class="sidebar-link">
+                                <i class="mdi mdi-adjust"></i>
+                                <span class="hide-menu"> Dashboard 6 </span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                
+                {% ifequal user.groups.all.0.name 'admin' %}
+                
+                <li class="sidebar-item"> 
+                    <a class="sidebar-link has-arrow waves-effect waves-dark" 
+                        aria-expanded="false">
+                        <i class="mdi mdi-account-multiple"></i><span class="hide-menu">User Management </span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse  first-level">
+                        <li class="sidebar-item">
+                            <a href="{% url 'viewusergroups' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> User Group
+                                </span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="{% url 'viewuser' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> Users
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="sidebar-item"> 
+                    <a class="sidebar-link has-arrow waves-effect waves-dark" 
+                        aria-expanded="false">
+                        <i class="mdi mdi-map-marker"></i><span class="hide-menu">Locations </span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse  first-level">
+                        <li class="sidebar-item">
+                            <a href="{% url 'viewcountries' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> Country
+                                </span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="{% url 'viewregions' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> Region
+                                </span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="{% url 'viewcities' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> City
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sidebar-item"> 
+                    <a class="sidebar-link has-arrow waves-effect waves-dark" 
+                        aria-expanded="false">
+                        <i class="mdi mdi-bank"></i><span class="hide-menu">Organizational </span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse  first-level">
+                        <li class="sidebar-item">
+                            <a href="{% url 'vieworganizations' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> Organization
+                                </span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="{% url 'viewbranches' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> Branches
+                                </span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="{% url 'viewdivisions' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> Divisions
+                                </span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="{% url 'viewdepartments' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> Departments
+                                </span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="{% url 'viewgrades' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> Grades
+                                </span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="{% url 'viewdesignations' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> Designation
+                                </span>
+                            </a>
+                        </li>
+                        <hr>
+                        <li class="sidebar-item">
+                            <a href="{% url 'viewemployees' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> Employees
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+
+                <li class="sidebar-item"> 
+                    <a class="sidebar-link has-arrow waves-effect waves-dark" 
+                        aria-expanded="false">
+                        <i class="fa fa-anchor"></i><span class="hide-menu">IMS </span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse  first-level">
+                        
+                        <li class="sidebar-item">
+                            <a href="{% url 'viewstudents' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> Students
+                                </span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a href="{% url 'viewstudentregistration' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> Student Registration
+                                </span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a href="{% url 'searchstudents' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> Search Students
+                                </span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a href="{% url 'studentattendance' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> Student Attendance
+                                </span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a href="{% url 'viewstudentattendance' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> View Student Attendance
+                                </span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a href="{% url 'viewparents' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> Parents
+                                </span>
+                            </a>
+                        </li>
+                    
+                        <li class="sidebar-item">
+                            <a href="{% url 'viewlocalgurdian' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> Local Gurdian
+                                </span>
+                            </a>
+                        </li>
+
+                        
+                         
+                    </ul>
+                </li>
+
+                <li class="sidebar-item"> 
+                    <a class="sidebar-link has-arrow waves-effect waves-dark" 
+                        aria-expanded="false">
+                        <i class="fa fa-cog"></i><span class="hide-menu">Settings </span>
+                    </a>
+                    
+                    <ul aria-expanded="false" class="collapse  first-level">
+                        <li class="sidebar-item">
+                            <a href="{% url 'viewstudentstatus' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> Student Status
+                                </span>
+                            </a>
+                        </li>
+                        
+                        
+                        <li class="sidebar-item">
+                            <a href="{% url 'viewclasses' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> Classes
+                                </span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a href="{% url 'viewsection' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> Section
+                                </span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a href="{% url 'viewsubject' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> Subject
+                                </span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a href="{% url 'viewsessions' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> Sessions
+                                </span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a href="{% url 'viewmediumtype' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> Medium Type
+                                </span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a href="{% url 'viewclassdetail' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> Class Details
+                                </span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a href="{% url 'viewclasssubject' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> Class Subject
+                                </span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a href="{% url 'viewdegrees' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> Degrees
+                                </span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a href="{% url 'viewinstitutes' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> Institutes
+                                </span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a href="{% url 'viewgenders' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> Genders
+                                </span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a href="{% url 'viewempstatus' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> Employment Status
+                                </span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a href="{% url 'viewemptypes' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> Employment Type
+                                </span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a href="{% url 'viewidentitytypes' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> Identity Type
+                                </span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a href="{% url 'viewmaritalstatus' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> Marital Status
+                                </span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a href="{% url 'viewreligions' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> Religions
+                                </span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a href="{% url 'viewshifttypes' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> Shift Type
+                                </span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a href="{% url 'viewteachersubject' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> Teacher Subject
+                                </span>
+                            </a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                        
+                    
+                        
+
+                
+
+                {% endifequal %}
+
+
+                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                        href="{% url 'logout' %}" aria-expanded="false"><i
+                            class="mdi mdi-directions"></i><span class="hide-menu">Log Out</span></a></li>
+            </ul>
+        </nav>
+        <!-- End Sidebar navigation -->
+    </div>
+    <!-- End Sidebar scroll-->
+    
+</aside>

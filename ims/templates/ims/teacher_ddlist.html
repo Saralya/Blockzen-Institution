@@ -1,0 +1,4 @@
+<option value="">---------</option>
+{% for teachers in teachers %}
+<option value="{{ teachers.id }}">{{ teachers.teacher.get_emp_name }}</option> <!--teacher field dhore Employees model e giye sekhan theke name ante hobe-->
+{% endfor %}
