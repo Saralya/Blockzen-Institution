@@ -1,5 +1,6 @@
 from django.urls import path
 from accesscontrol import views
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('login', views.userlogin, name = 'login'),
@@ -18,4 +19,18 @@ urlpatterns = [
 
     ## CHANGE PASSWORD
     path('changepassword', views.changepassword, name = 'changepassword'),
+
+
+    # RESET PASSWORD (djangor by default reset password views ase..see doc)
+    # 1st step: submit email form..akta mail newar jonno form banabo jekhane reset link jabe
+    path('reset_password/', auth_views.PasswordResetView.as_view(template_name="accesscontrol/password_reset.html"), name='reset_password'),
+    # 2nd step: mail e link ta pathanor por akta success message dekhabe
+    path('reset_password_sent/', auth_views.PasswordResetDoneView.as_view(template_name="accesscontrol/password_reset_sent.html"), name='password_reset_done'),
+    # 3rd step: link to password reset form
+    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name="accesscontrol/password_reset_form.html"), name='password_reset_confirm'),
+    # 4th step: password successfully changed
+    path('reset_password_complete/', auth_views.PasswordResetCompleteView.as_view(template_name="accesscontrol/password_reset_done.html"), name='password_reset_complete'),
+
+    # erpor settings.py e SMTP config korte hobe
+
 ]

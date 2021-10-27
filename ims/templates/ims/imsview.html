@@ -739,6 +739,31 @@
                                     {% endfor %}
                                 </tbody>
 
+                                {% elif headerText == 'Session' %}
+                                <thead>
+                                    <tr>
+                                        <th>Session</th>
+                                        <th>Month</th>
+                                        
+                                        
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for session in session %}
+                                    <tr>
+                                        <td>{{ session.session }}</td>
+                                        <td>{{ session.month }}</td>
+                                        
+                                        
+                                        
+                                        
+                                        
+                                    </tr>
+                                    
+                                    {% endfor %}
+                                </tbody>
+
                                
 
 

@@ -7,10 +7,10 @@ urlpatterns = [
     path('changepassword', views.changepassword, name = 'changepassword'),
 
     ## DIVISIONS
-    path('viewdivisions', views.viewdivisions, name = 'viewdivisions'),
-    path('createdivision', views.createdivision, name = 'createdivision'),
-    path('editdivision/<str:varCode>', views.editdivision, name = 'editdivision'),
-    path('deletedivision/<str:varCode>', views.deletedivision, name = 'deletedivision'),
+    path('viewfaculties', views.viewfaculties, name = 'viewfaculties'),
+    path('createfaculties', views.createfaculties, name = 'createfaculties'),
+    path('editfaculties/<str:varCode>', views.editfaculties, name = 'editfaculties'),
+    path('deletefaculties/<str:varCode>', views.deletefaculties, name = 'deletefaculties'),
 
 
     ## DEPARTMENTS
@@ -25,6 +25,12 @@ urlpatterns = [
     path('creategrade', views.creategrade, name = 'creategrade'),
     path('editgrade/<str:varCode>', views.editgrade, name = 'editgrade'),
     path('deletegrade/<str:varCode>', views.deletegrade, name = 'deletegrade'),
+
+
+    path('viewsector', views.viewsector, name = 'viewsector'),
+    path('createsector', views.createsector, name = 'createsector'),
+    path('editsector/<str:varCode>', views.editsector, name = 'editsector'),
+    path('deletesector/<str:varCode>', views.deletesector, name = 'deletesector'),
 
 
     ## DESIGNATION
@@ -112,6 +118,10 @@ urlpatterns = [
     path('createemployee', views.createemployee, name = 'createemployee'),
     path('editemployee/<str:varCode>', views.editemployee, name = 'editemployee'),
     path('deleteemployee/<str:varCode>', views.deleteemployee, name = 'deleteemployee'),
+
+    
+
+    path('ajax/load_designations/', views.load_designations, name='ajax_load_designations'),
     # Employee Details
     path('viewemployeedetails/<str:empId>', views.viewemployeedetails, name = 'viewemployeedetails'),
     # Address

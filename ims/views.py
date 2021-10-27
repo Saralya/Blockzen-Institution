@@ -1188,3 +1188,84 @@ def load_teachers(request):
     return render(request, 'ims/teacher_ddlist.html',context)
 
 
+
+def viewsession(request):
+    headerText = 'Session'
+    createData = 'createsession'
+    session = Session.objects.all()
+
+    context  = {
+        'session' : session,
+        'headerText' : headerText,
+        'createData' : createData,
+    }
+    return render(request, 'ims/imsview.html', context)
+
+
+def createsession(request):
+    headerText = 'Session'
+    form = SessionForm()
+
+    if request.method == 'POST':
+        form = SessionForm(request.POST)
+        try:
+            if form.is_valid():
+                data = form.save(commit = False)
+                data.createdby = request.user
+                data.save()
+                return redirect('viewsession') 
+        except Exception as e:
+            messages.error(request, str(e))
+         
+
+    context  = {
+        'form' : form,
+        'headerText' : headerText,
+    }
+    return render(request, 'blockzenmaster/entry.html', context)
+
+
+def editsession(request, varCode):
+    headerText = 'Session'
+    session = Session.objects.get(id = varCode)
+    form = SessionForm(instance = session)
+
+    if request.method == 'POST':
+        form = SessionForm(request.POST, instance = session)
+        try:
+            if form.is_valid():
+                form.save()
+                return redirect('viewsession')   
+        except Exception as e:
+            messages.error(request, str(e)) 
+
+
+    context  = {
+        'form' : form,
+        'headerText' : headerText,
+    }
+    return render(request, 'blockzenmaster/entry.html', context)
+
+
+def deletesession(request, varCode):
+    headerText = 'Delete'
+    deletedItem = 'Session'
+    returnUrl = 'viewsession'
+
+    deletedVal = Session.objects.get(id = varCode)
+
+    if request.method == 'POST':
+        try:
+            deletedVal.delete()
+            return redirect('viewsession')  
+        except Exception as e:
+            messages.error(request, str(e))  
+
+    context  = {
+        'headerText' : headerText,
+        'deletedItem' : deletedItem,
+        'deletedVal' : deletedVal,
+        'returnUrl' : returnUrl,
+    }
+    return render(request, 'blockzenmaster/entry.html', context)
+

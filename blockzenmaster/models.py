@@ -59,20 +59,20 @@ class Branch(models.Model):
         return self.name
 
 
-class Divisions(models.Model):
-    divisionName = models.CharField(max_length=200, null= True, blank=True)
+class Faculties(models.Model):
+    facultyName = models.CharField(max_length=200, null= True, blank=True)
     description = models.CharField(max_length=500, null= True, blank=True)
     creationDate = models.DateTimeField(auto_now_add=True, blank = True)
     createdby = models.ForeignKey(User, on_delete=models.CASCADE, null = True, blank = True)
 
     def __str__(self):
-        return self.divisionName
+        return self.facultyName
 
 class Departments(models.Model):
     departmentName = models.CharField(max_length=200, null= True, blank=True)
     description = models.CharField(max_length=500, null= True, blank=True)
-    divisions = models.ForeignKey(Divisions, on_delete= models.SET_NULL, null = True, blank= True)
-    parentDepartment = models.ForeignKey('self', on_delete= models.SET_NULL, null = True, blank = True)
+    faculties = models.ForeignKey(Faculties, on_delete= models.SET_NULL, null = True, blank= True)
+    
     creationDate = models.DateTimeField(auto_now_add=True, blank = True)
     createdby = models.ForeignKey(User, on_delete=models.CASCADE, null = True, blank = True)
 
@@ -89,8 +89,19 @@ class Grades(models.Model):
         return self.grade
 
 
+class Sectors(models.Model):
+    sector = models.CharField(max_length=50, null= True, blank=True)
+    remarks = models.CharField(max_length=500, null= True, blank=True)
+    creationDate = models.DateTimeField(auto_now_add=True, blank = True)
+    createdby = models.ForeignKey(User, on_delete=models.CASCADE, null = True, blank = True)
+
+    def __str__(self):
+        return self.sector
+
+
 class Designations(models.Model):
     designation = models.CharField(max_length=200, null= True, blank=True)
+    sector = models.ForeignKey(Sectors, on_delete= models.SET_NULL, null = True, blank= True)
     remarks = models.CharField(max_length=500, null= True, blank=True)
     creationDate = models.DateTimeField(auto_now_add=True, blank = True)
     createdby = models.ForeignKey(User, on_delete=models.CASCADE, null = True, blank = True)
@@ -199,8 +210,9 @@ class Employees(models.Model):
     last_name = models.CharField(max_length=200, null = True, blank = True)
     gender = models.ForeignKey(Gender, on_delete = models.SET_NULL, null = True, blank = True)
     branch = models.ForeignKey(Branch, on_delete = models.SET_NULL, null = True, blank = True)
+    
+    sector = models.ForeignKey(Sectors, on_delete = models.SET_NULL, null = True, blank = True)
     designations = models.ForeignKey(Designations, on_delete = models.SET_NULL, null = True, blank = True)
-    departments = models.ForeignKey(Departments, on_delete = models.SET_NULL, null = True, blank = True)
     picture = models.ImageField(null= True, blank = True)
     manager = models.ForeignKey('self', on_delete= models.SET_NULL, null = True, blank = True)
     birthDate = models.DateField(null = True, blank = True)
@@ -257,6 +269,8 @@ class Employees(models.Model):
         else:
             hasTeam = False
         return hasTeam
+
+    
 
 
 
@@ -648,6 +662,17 @@ class ClassSubject(models.Model):
         return self.classes.className + ' - ' + self.subject.subjectName
 
 
+class Session(models.Model):
+    session = models.CharField(max_length=200, null= True, blank= True)
+    month = models.CharField(max_length=200, null= True, blank= True)
+    
+    
+    
+
+    def __str__(self):
+        return self.session
+
+
 
 
 class StudentRegistration(models.Model):
@@ -659,9 +684,9 @@ class StudentRegistration(models.Model):
     section = models.ForeignKey(Section, on_delete = models.SET_NULL, null = True, blank = True)
     roll = models.CharField(max_length=200, null= True, blank= True)
     classTeacher = models.ForeignKey(Employees, on_delete = models.SET_NULL, null = True, blank = True)
+    session = models.ForeignKey(Session, on_delete = models.SET_NULL, null = True, blank = True)
     
-    startDate = models.DateField(null = True, blank = True)
-    endDate = models.DateField(default = None, null = True, blank = True)
+    
     createdBy = models.CharField(max_length=200, null= True, blank= True)
     creationDate = models.DateTimeField(auto_now_add = True, null = True, blank = True)
     
@@ -678,3 +703,6 @@ class StudentAttendance(models.Model):
 
     def __str__(self):
         return self.student.get_emp_name
+
+
+

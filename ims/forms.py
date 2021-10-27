@@ -34,7 +34,7 @@ class StudentsForm(ModelForm):
     last_name = forms.CharField(max_length=200, label = 'Last Name', widget=forms.TextInput(attrs={'class':'form-control'}))
     birthPlace = forms.CharField(max_length=200, label = 'Birth Place', widget=forms.TextInput(attrs={'class':'form-control'}))
     nationality = forms.CharField(max_length=200, label = 'Nationality', widget=forms.TextInput(attrs={'class':'form-control'}))
-    identityValue = forms.CharField(max_length=200, label = 'Identity Value', widget=forms.TextInput(attrs={'class':'form-control'}))
+    identityValue = forms.CharField(max_length=200, label = 'Identity Number', widget=forms.TextInput(attrs={'class':'form-control'}))
     bloodGroup = forms.CharField(max_length=200, label = 'Blood Group', widget=forms.TextInput(attrs={'class':'form-control'}))
     disabilityDetails = forms.CharField(max_length=200, label = 'Disability Details', widget=forms.TextInput(attrs={'class':'form-control'}))
     identificationMark = forms.CharField(max_length=200, label = 'Identification Mark', widget=forms.TextInput(attrs={'class':'form-control'}))
@@ -220,13 +220,12 @@ class ClassDetailForm(ModelForm):
 
 class StudentRegistrationForm(ModelForm):
     
-    startDate = forms.DateField(widget = DateInput)
-    endDate = forms.DateField(widget = DateInput)
+   
     
 
     class Meta:
         model = StudentRegistration
-        fields = ['student','organization','branch', 'classes', 'section', 'roll', 'classTeacher','startDate', 'endDate']
+        fields = ['student','organization','branch', 'classes', 'section', 'roll', 'classTeacher', 'session']
 
     def __init__(self, *args, **kwargs):
         super(StudentRegistrationForm, self).__init__(*args, **kwargs)
@@ -245,10 +244,9 @@ class StudentRegistrationForm(ModelForm):
         self.fields['roll'].label = 'Roll No'
         self.fields['classTeacher'].widget.attrs['class'] = 'form-control'
         self.fields['classTeacher'].label = 'Class Teacher'
-        self.fields['startDate'].widget.attrs['class'] = 'form-control'
-        self.fields['startDate'].label = 'Start Date'
-        self.fields['endDate'].widget.attrs['class'] = 'form-control'
-        self.fields['endDate'].label = 'End Date'
+        self.fields['session'].widget.attrs['class'] = 'form-control'
+        self.fields['session'].label = 'Session'
+        
 
 
 class ClassSubjectForm(ModelForm):
@@ -290,6 +288,16 @@ class TeacherSubjectForm(ModelForm):
         self.fields['subject'].widget.attrs['class'] = 'form-control'
         self.fields['subject'].label = 'Preferred Subject'
 
+
+class SessionForm(ModelForm):
+    
+    
+    session = forms.CharField(max_length=200, label = 'Session', widget=forms.TextInput(attrs={'class':'form-control'}), required=False)
+    month = forms.CharField(max_length=200, label = 'Month', widget=forms.TextInput(attrs={'class':'form-control'}), required=False)
+
+    class Meta:
+        model = Session
+        fields = ['session', 'month']
 
 
         

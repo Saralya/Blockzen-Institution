@@ -136,7 +136,7 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a href="{% url 'viewdivisions' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> Divisions
+                            <a href="{% url 'viewfaculties' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> Faculties
                                 </span>
                             </a>
                         </li>
@@ -150,12 +150,18 @@
                                 </span>
                             </a>
                         </li>
+
+                        <li class="sidebar-item">
+                            <a href="{% url 'viewsector' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> Sectors
+                                </span>
+                            </a>
+                        </li>
                         <li class="sidebar-item">
                             <a href="{% url 'viewdesignations' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> Designation
                                 </span>
                             </a>
                         </li>
-                        <hr>
+                        
                         <li class="sidebar-item">
                             <a href="{% url 'viewemployees' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> Employees
                                 </span>
@@ -331,6 +337,12 @@
 
                         <li class="sidebar-item">
                             <a href="{% url 'viewteachersubject' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> Teacher Subject
+                                </span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a href="{% url 'viewsession' %}" class="sidebar-link"><i class="mdi mdi-format-align-left"></i><span class="hide-menu"> Session
                                 </span>
                             </a>
                         </li>

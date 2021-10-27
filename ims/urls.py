@@ -69,6 +69,11 @@ urlpatterns = [
     path('editstudentregistration/<str:varCode>', views.editstudentregistration, name = 'editstudentregistration'),
     path('deletestudentregistration/<str:varCode>', views.deletestudentregistration, name = 'deletestudentregistration'),
 
+    path('viewsession', views.viewsession, name = 'viewsession'),
+    path('createsession', views.createsession, name = 'createsession'),
+    path('editsession/<str:varCode>', views.editsession, name = 'editsession'),
+    path('deletesession/<str:varCode>', views.deletesession, name = 'deletesession'),
+
 
     path('searchstudents', views.searchstudents, name = 'searchstudents'),
     path('studentattendance', views.studentattendance, name = 'studentattendance'),

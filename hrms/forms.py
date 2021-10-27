@@ -33,13 +33,13 @@ class ChangePasswordForm(PasswordChangeForm):
 ######################################################################################################
 
 
-class DivisionForm(ModelForm):
-    divisionName = forms.CharField(max_length=200, label = 'Division Name', widget=forms.TextInput(attrs={'class':'form-control'}))
+class FacultiesForm(ModelForm):
+    facultyName = forms.CharField(max_length=200, label = 'Faculty Name', widget=forms.TextInput(attrs={'class':'form-control'}))
     description = forms.CharField(max_length=500, label = 'Remarks', widget=forms.Textarea(attrs={'class':'form-control', 'rows':2}))
 
     class Meta:
-        model = Divisions
-        fields = ['divisionName', 'description']
+        model = Faculties
+        fields = ['facultyName', 'description']
 
 
 
@@ -49,15 +49,14 @@ class DepartmentForm(ModelForm):
 
     class Meta:
         model = Departments
-        fields = ['departmentName', 'description', 'parentDepartment', 'divisions']
+        fields = ['departmentName', 'description', 'faculties']
 
     def __init__(self, *args, **kwargs):
         super(DepartmentForm, self).__init__(*args, **kwargs)
 
-        self.fields['parentDepartment'].widget.attrs['class'] = 'form-control'
-        self.fields['parentDepartment'].label = 'Parent Department'
-        self.fields['divisions'].widget.attrs['class'] = 'form-control'
-        self.fields['divisions'].label = 'Division Name'
+        
+        self.fields['faculties'].widget.attrs['class'] = 'form-control'
+        self.fields['faculties'].label = 'Faculty Name'
 
 
 
@@ -70,6 +69,15 @@ class GradeForm(ModelForm):
         fields = ['grade', 'remarks']
 
 
+class SectorsForm(ModelForm):
+    sector = forms.CharField(max_length=200, label = 'Sector', widget=forms.TextInput(attrs={'class':'form-control'}))
+    remarks = forms.CharField(max_length=500, label = 'Remarks', widget=forms.Textarea(attrs={'class':'form-control', 'rows':2}))
+
+    class Meta:
+        model = Sectors
+        fields = ['sector', 'remarks']
+
+
 
 class DesignationForm(ModelForm):
     designation = forms.CharField(max_length=200, label = 'Designation Name', widget=forms.TextInput(attrs={'class':'form-control'}))
@@ -77,7 +85,14 @@ class DesignationForm(ModelForm):
 
     class Meta:
         model = Designations
-        fields = ['designation', 'remarks']
+        fields = ['designation', 'sector', 'remarks']
+
+    def __init__(self, *args, **kwargs):
+        super(DesignationForm, self).__init__(*args, **kwargs)
+
+        
+        self.fields['sector'].widget.attrs['class'] = 'form-control'
+        self.fields['sector'].label = 'Sector Name'
 
 
 
@@ -195,7 +210,8 @@ class EmployeeForm(ModelForm):
 
     class Meta:
         model = Employees
-        fields = ['empno', 'first_name', 'last_name', 'mobile', 'email', 'gender', 'fatherName', 'motherName', 'maritalstatus', 'spouseName', 'branch', 'designations', 'departments', 'picture', 'manager', 'birthDate', 'joiningDate', 'grades', 'status', 'nationality', 'bloodGroup', 'religion', 'identitytypes', 'identityValue', 'probationPeriod', 'shifttype', 'employmenttype', 'user']
+        fields = ['empno', 'first_name', 'last_name', 'mobile', 'email', 'gender', 'fatherName', 'motherName', 'maritalstatus', 'spouseName', 'branch', 'sector', 'designations', 'picture', 'manager', 'birthDate', 'joiningDate', 'grades', 'status', 'nationality', 'bloodGroup', 'religion', 'identitytypes', 'identityValue', 'probationPeriod', 'shifttype', 'employmenttype', 'user']
+        
 
     def __init__(self, *args, **kwargs):
         super(EmployeeForm, self).__init__(*args, **kwargs)
@@ -207,10 +223,11 @@ class EmployeeForm(ModelForm):
         self.fields['gender'].label = 'Gender'
         self.fields['branch'].widget.attrs['class'] = 'form-control'
         self.fields['branch'].label = 'Branch'
+        self.fields['sector'].widget.attrs['class'] = 'form-control'
+        self.fields['sector'].label = 'Sector'
         self.fields['designations'].widget.attrs['class'] = 'form-control'
         self.fields['designations'].label = 'Designation'
-        self.fields['departments'].widget.attrs['class'] = 'form-control'
-        self.fields['departments'].label = 'Department'
+        
         self.fields['manager'].widget.attrs['class'] = 'form-control'
         self.fields['manager'].label = 'Line Manager'
         self.fields['grades'].widget.attrs['class'] = 'form-control'

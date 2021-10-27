@@ -35,15 +35,15 @@ def changepassword(request):
 
 
 
-## Division
+## Faculty
 @admin_only
-def viewdivisions(request):
-    headerText = 'Divisions'
-    createData = 'createdivision'
-    divisions = Divisions.objects.all()
+def viewfaculties(request):
+    headerText = 'Faculties'
+    createData = 'createfaculties'
+    faculties = Faculties.objects.all()
 
     context  = {
-        'divisions' : divisions,
+        'faculties' : faculties,
         'headerText' : headerText,
         'createData' : createData,
     }
@@ -51,18 +51,18 @@ def viewdivisions(request):
 
 
 
-def createdivision(request):
+def createfaculties(request):
     headerText = 'Divisions'
-    form = DivisionForm()
+    form = FacultiesForm()
 
     if request.method == 'POST':
-        form = DivisionForm(request.POST)
+        form = FacultiesForm(request.POST)
         try:
             if form.is_valid():
                 data = form.save(commit = False)
                 data.createdby = request.user
                 data.save()
-                return redirect('viewdivisions') 
+                return redirect('viewfaculties') 
         except Exception as e:
             messages.error(request, str(e))
          
@@ -75,17 +75,17 @@ def createdivision(request):
 
 
 
-def editdivision(request, varCode):
-    headerText = 'Branches'
-    division = Divisions.objects.get(id = varCode)
-    form = DivisionForm(instance = division)
+def editfaculties(request, varCode):
+    headerText = 'Faculties'
+    faculties = Faculties.objects.get(id = varCode)
+    form = FacultiesForm(instance = faculties)
 
     if request.method == 'POST':
-        form = DivisionForm(request.POST, instance = division)
+        form = FacultiesForm(request.POST, instance = faculties)
         try:
             if form.is_valid():
                 form.save()
-                return redirect('viewdivisions')   
+                return redirect('viewfaculties')   
         except Exception as e:
             messages.error(request, str(e)) 
 
@@ -98,24 +98,24 @@ def editdivision(request, varCode):
 
 
 
-def deletedivision(request, varCode):
+def deletefaculties(request, varCode):
     headerText = 'Delete'
-    deletedItem = 'Division'
-    returnUrl = 'viewdivisions'
+    deletedItem = 'Faculties'
+    returnUrl = 'viewfaculties'
 
-    deletedVal = Divisions.objects.get(id = varCode)
+    deletedVal = Faculties.objects.get(id = varCode)
 
     if request.method == 'POST':
         try:
             deletedVal.delete()
-            return redirect('viewdivisions')  
+            return redirect('viewfaculties')  
         except Exception as e:
             messages.error(request, str(e))  
 
     context  = {
         'headerText' : headerText,
         'deletedItem' : deletedItem,
-        'deletedVal' : deletedVal.divisionName,
+        'deletedVal' : deletedVal.facultyName,
         'returnUrl' : returnUrl,
     }
     return render(request, 'blockzenmaster/entry.html', context)
@@ -295,6 +295,95 @@ def deletegrade(request, varCode):
         'headerText' : headerText,
         'deletedItem' : deletedItem,
         'deletedVal' : deletedVal.grade,
+        'returnUrl' : returnUrl,
+    }
+    return render(request, 'blockzenmaster/entry.html', context)
+
+
+
+@admin_only
+def viewsector(request):
+    headerText = 'Sectors'
+    createData = 'createsector'
+    sector = Sectors.objects.all()
+
+    context  = {
+        'sector' : sector,
+        'headerText' : headerText,
+        'createData' : createData,
+    }
+    return render(request, 'blockzenmaster/view.html', context)
+
+
+
+@admin_only
+def createsector(request):
+    headerText = 'Sectors'
+    form = SectorsForm()
+
+    if request.method == 'POST':
+        form = SectorsForm(request.POST)
+        try:
+            if form.is_valid():
+                data = form.save(commit = False)
+                data.createdby = request.user
+                data.save()
+                return redirect('viewsector') 
+        except Exception as e:
+            messages.error(request, str(e))
+         
+
+    context  = {
+        'form' : form,
+        'headerText' : headerText,
+    }
+    return render(request, 'blockzenmaster/entry.html', context)
+
+
+
+@admin_only
+def editsector(request, varCode):
+    headerText = 'Sectors'
+    sector = Sectors.objects.get(id = varCode)
+    form = SectorsForm(instance = sector)
+
+    if request.method == 'POST':
+        form = SectorsForm(request.POST, instance = sector)
+        try:
+            if form.is_valid():
+                form.save()
+                return redirect('viewsector')   
+        except Exception as e:
+            messages.error(request, str(e)) 
+
+
+    context  = {
+        'form' : form,
+        'headerText' : headerText,
+    }
+    return render(request, 'blockzenmaster/entry.html', context)
+
+
+
+@admin_only
+def deletesector(request, varCode):
+    headerText = 'Delete'
+    deletedItem = 'Sector'
+    returnUrl = 'viewsector'
+
+    deletedVal = Sectors.objects.get(id = varCode)
+
+    if request.method == 'POST':
+        try:
+            deletedVal.delete()
+            return redirect('viewsector')  
+        except Exception as e:
+            messages.error(request, str(e))  
+
+    context  = {
+        'headerText' : headerText,
+        'deletedItem' : deletedItem,
+        'deletedVal' : deletedVal.sector,
         'returnUrl' : returnUrl,
     }
     return render(request, 'blockzenmaster/entry.html', context)
@@ -1182,6 +1271,10 @@ def createemployee(request):
 
 
 
+
+
+
+
 @admin_only
 def editemployee(request, varCode):
     headerText = 'Employees'
@@ -1228,6 +1321,19 @@ def deleteemployee(request, varCode):
         'returnUrl' : returnUrl,
     }
     return render(request, 'blockzenmaster/entry.html', context)
+
+
+def load_designations(request):
+    sector_id = request.GET.get('sector')
+    
+    designations = Designations.objects.filter(sector_id=sector_id) 
+    
+    
+
+    context = {
+        'designations' : designations,   
+    }
+    return render(request, 'hrms/designation_ddlist.html', context)
 
 
 

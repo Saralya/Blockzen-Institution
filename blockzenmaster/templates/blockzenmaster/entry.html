@@ -320,7 +320,7 @@
                     <div class="card-body">
 
                         <div class="row">
-                            <div class="col-sm-12 col-md-12">
+                            <div class="col-sm-12 col-md-12" >
                                 
                                     
                                     {{ myFilter.form.organization|as_crispy_field }}
@@ -329,7 +329,7 @@
                                     {{ myFilter.form.section|as_crispy_field }}
                                     
 
-                                    <button class="btn btn-primary" type="submit">Search</button>
+                                    <button class="btn btn-primary" type="submit" >Search</button>
                                 
                             </div>
                         </div>
@@ -339,10 +339,10 @@
                     </div>
                 </form>
 
-                <div class="row">
+                <div class="row" id="member">
                     <div class="col-md">
                         <div class="card card-body">
-                            <table class="table table-sm">
+                            <table class="table table-sm"  >
                                 <tr>
                                     <th>Student</th>
                                     <th>Organization</th>
@@ -356,7 +356,7 @@
                 
                                 {% for student in student %}
                 
-                                <tr>
+                                <tr >
                                     <td>{{student.student}}</td>
                                     <td>{{student.organization}}</td>
                                     <td>{{student.branch}}</td>
@@ -369,8 +369,8 @@
                                     
                                     
                                     <td class="attendance_pages" id="{{student.student.id}}">
-                                        <input id="rd1" name="attendance" type="radio" value="Present"  > Present </input>
-                                        <input id="rd2" name="attendance" type="radio" value="Absent" > Absent </input>
+                                        <input id="rd1" name="{{ forloop.counter }}" type="radio" value="Present"  > Present </input>
+                                        <input id="rd2" name="{{ forloop.counter }}" type="radio" value="Absent" > Absent </input>
                                     </td>
 
                                     
@@ -399,7 +399,7 @@
                             <div class="action-form">
                                 <div class="form-group mb-0 text-left">
                                     
-                                    <button id="save" class="btn btn-info waves-effect waves-light"  >Save</button>
+                                    <button id="save" class="btn btn-info waves-effect waves-light" onclick="attFunction('{{student.student.id}}')"  >Save</button>
                                     <a href="#" onclick="javascript:window.history.back(-1);return false;"
                                         class="btn btn-dark waves-effect waves-light">Cancel</a>
                                 </div>
@@ -481,6 +481,45 @@
                     </div>
                     {% endfor %}
                 </div>
+
+                {% elif headerText == "Employees" %}
+                <form method="POST" enctype="multipart/form-data" id="EmployeesForm" data-designation-url="{% url 'ajax_load_designations' %}"  >
+                    {% csrf_token %}
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    <!--<label for="inputname" class="control-label col-form-label">First Name</label> -->
+                                    <!--<input type="text" class="form-control" id="inputname" placeholder="First Name Here">-->
+                                    {{ form }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+                        <div class="action-form">
+                            <div class="form-group mb-0 text-left">
+                                <button type="submit" class="btn btn-info waves-effect waves-light">Save</button>
+                                <a href="#" onclick="javascript:window.history.back(-1);return false;"
+                                    class="btn btn-dark waves-effect waves-light">Cancel</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div>
+                    <br>
+                    {% for message in messages %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        {{message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                
 
 
 
@@ -653,6 +692,31 @@
     });
 </script>
 
+<script>
+    $("#id_sector").change(function(){
+     const url = $("#EmployeesForm").attr("data-designation-url");
+     const sectorId = $(this).val();
+
+     $.ajax({
+
+          url: url,
+          data: {
+              'sector': sectorId
+                              
+          },
+          success: function(data){
+              console.log(data);
+
+              $("#id_designations").html(data);
+          }
+
+     });
+
+
+
+    });
+</script>
+
 <!-- <script>
     function attfunction(varCode)
     {
@@ -672,66 +736,99 @@
 
 </script> -->
 
-<!-- <script>
+<script>
 
-function PresentFunction(varCode){
+function attFunction(varCode){
      
     console.log(varCode);
     
     
     var rd1 = document.getElementById("rd1");
-    const val1 = rd1.value
-    console.log(rd1.value)
+    const val1 = rd1.value;
+    console.log(rd1.value);
+    var rd2 = document.getElementById("rd2");
+    const val2 = rd2.value;
+    console.log(rd2.value);
+
+    if(rd1.checked==true)
+        $.ajax({
+
+            url: 'saveattendance',
+            data: {
+                'userId': varCode,
+                'attval': val1
+
+                                    
+            },
+            success: function(data){
+                console.log(data);
+
+                    
+            }
+
+        });
     
+    else if(rd2.checked==true)
+        $.ajax({
 
-    
-    $.ajax({
+            url: 'saveattendance',
+            data: {
+                'userId': varCode,
+                'attval': val2
 
-        url: 'saveattendance',
-        data: {
-            'userId': varCode,
-            'attval': val1
+                                    
+            },
+            success: function(data){
+                console.log(data);
 
-                                
-        },
-        success: function(data){
-            console.log(data);
+            
+            }
 
-                
-        }
+        });
 
-    });
-
-    
-
-
+    else
+        alert("not checked");
 
 };
-</script> -->
+</script>
 
 
-<script>
-    $(document).ready(function(){
-        $("#save").click(function(){
-            var attendancelist = [];
-            $(".attendance_pages").each(function(){
-                var studentId = $(this).attr("id");
-                var attval = $("input[name='attendance']:checked", $(this)).val();
+<!-- <script>
+$(document).ready(function(){
+    $("#save").click(function(){
+
+        // var number = document.getElementById("save").value;
+        
+        var cloned;
+        var attendancelist = [];
+        $(".attendance_pages").each(function(){
+            var studentId = $(this).attr("id");
+            var attval = $("input[name='attendance']:checked", $(this)).val();
+            
+
+            if(attval !== undefined){
+                attendancelist.push({
+                    studentId: studentId,
+                    attval: attval
+                });
                 
-
-                if(attval !== undefined){
-                    attendancelist.push({
-                        studentId: studentId,
-                        attval: attval
-                    });
-                    
-                }
-            });
-            console.log(attendancelist);
+            }
         });
-    });
+        console.log(attendancelist);
+        for (i=1;i<100;i++){
+            cloned = repeat.clone(true);
+            
+            // Get all elements having a name attribute... And modify the name.
+            cloned.find("[name]").each(function(){
+                $(this).attr("name",$(this).attr("name")+"_"+i)
+            });
 
-</script>  
+            cloned.appendTo('.attendance_pages');
+        }
+    });
+});
+
+</script>   -->
 
 
 {% endblock %}

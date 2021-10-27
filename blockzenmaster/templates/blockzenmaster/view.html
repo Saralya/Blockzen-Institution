@@ -303,11 +303,11 @@
 
 
                                 <!-- Division -->
-                                {% elif headerText == 'Divisions' %}
+                                {% elif headerText == 'Faculties' %}
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Division Name</th>
+                                        <th>Faculty Name</th>
                                         <th>Remarks</th>
                                         <th>Creation Date</th>
                                         <th>Created By</th>
@@ -316,22 +316,22 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for division in divisions %}
+                                    {% for faculties in faculties %}
                                     <tr>
-                                        <td>{{ division.id }}</td>
-                                        <td>{{ division.divisionName }}</td>
-                                        <td>{{ division.description }}</td>
-                                        <td>{{ division.creationDate }}</td>
-                                        <td>{{ division.createdby }}</td>
+                                        <td>{{ faculties.id }}</td>
+                                        <td>{{ faculties.facultyName }}</td>
+                                        <td>{{ faculties.description }}</td>
+                                        <td>{{ faculties.creationDate }}</td>
+                                        <td>{{ faculties.createdby }}</td>
                                         <td>
-                                            <a data-toggle="tooltip" data-placement="top" title="Edit Division"
-                                                href="{% url 'editdivision' division.id %}">
+                                            <a data-toggle="tooltip" data-placement="top" title="Edit Faculties"
+                                                href="{% url 'editfaculties' faculties.id %}">
                                                 <i class="far fa-edit"></i>
                                             </a>
                                         </td>
                                         <td>
-                                            <a data-toggle="tooltip" data-placement="top" title="Delete Division"
-                                                href="{% url 'deletedivision' division.id %}">
+                                            <a data-toggle="tooltip" data-placement="top" title="Delete Faculties"
+                                                href="{% url 'deletefaculties' faculties.id %}">
                                                 <i class="fas fa-trash-alt"></i>
                                             </a>
                                         </td>
@@ -353,8 +353,8 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>Department/Unit Name</th>
-                                        <th>Parent Department</th>
-                                        <th>Division Name</th>
+                                        
+                                        <th>Faculty Name</th>
                                         <th>Remarks</th>
                                         <th></th>
                                         <th></th>
@@ -365,17 +365,17 @@
                                     <tr>
                                         <td>{{ dept.id }}</td>
                                         <td>{{ dept.departmentName }}</td>
-                                        <td>{{ dept.parentDepartment|default_if_none:"" }}</td>
-                                        <td>{{ dept.divisions }}</td>
+                                        
+                                        <td>{{ dept.faculties }}</td>
                                         <td>{{ dept.description|default_if_none:"" }}</td>
                                         <td>
-                                            <a data-toggle="tooltip" data-placement="top" title="Edit Country"
+                                            <a data-toggle="tooltip" data-placement="top" title="Edit Departments"
                                                 href="{% url 'editdepartment' dept.id %}">
                                                 <i class="far fa-edit"></i>
                                             </a>
                                         </td>
                                         <td>
-                                            <a data-toggle="tooltip" data-placement="top" title="Delete Country"
+                                            <a data-toggle="tooltip" data-placement="top" title="Delete Departments"
                                                 href="{% url 'deletedepartment' dept.id %}">
                                                 <i class="fas fa-trash-alt"></i>
                                             </a>
@@ -433,6 +433,47 @@
                                 </tbody>
 
 
+                                {% elif headerText == 'Sectors' %}
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Sector</th>
+                                        <th>Remarks</th>
+                                        <th>Creation Date</th>
+                                        <th>Created By</th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for sector in sector %}
+                                    <tr>
+                                        <td>{{ sector.id }}</td>
+                                        <td>{{ sector.sector }}</td>
+                                        <td>{{ sector.remarks }}</td>
+                                        <td>{{ sector.creationDate }}</td>
+                                        <td>{{ sector.createdby }}</td>
+                                        <td>
+                                            <a data-toggle="tooltip" data-placement="top" title="Edit sector"
+                                                href="{% url 'editsector' sector.id %}">
+                                                <i class="far fa-edit"></i>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a data-toggle="tooltip" data-placement="top" title="Delete sector"
+                                                href="{% url 'deletesector' sector.id %}">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="7">No Records</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+
+
 
 
                                 <!-- Designations -->
@@ -441,6 +482,7 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>Designation</th>
+                                        <th>Sector</th>
                                         <th>Remarks</th>
                                         <th>Creation Date</th>
                                         <th>Created By</th>
@@ -453,6 +495,7 @@
                                     <tr>
                                         <td>{{ dsgn.id }}</td>
                                         <td>{{ dsgn.designation }}</td>
+                                        <td>{{ dsgn.sector }}</td>
                                         <td>{{ dsgn.remarks }}</td>
                                         <td>{{ dsgn.creationDate }}</td>
                                         <td>{{ dsgn.createdby }}</td>
@@ -875,7 +918,8 @@
                                         <th>Designation</th>
                                         <th>Grade</th>
                                         <th>Department</th>
-                                        <th>Division</th>
+                                        <th>Sector</th>
+                                        <th>Designation</th>
                                         <th>Branch</th>
                                         <th>Gender</th>
                                         <th>Birth Date</th>
@@ -894,7 +938,8 @@
                                         <td>{{ emp.designations }}</td>
                                         <td>{{ emp.grades }}</td>
                                         <td>{{ emp.departments }}</td>
-                                        <td>{{ emp.departments.divisions }}</td>
+                                        <td>{{ emp.sector }}</td>
+                                        <td>{{ emp.designations }}</td>
                                         <td>{{ emp.branch }}</td>
                                         <td>{{ emp.gender }}</td>
                                         <td>{{ emp.birthDate|date:'d-M-y' }}</td>
