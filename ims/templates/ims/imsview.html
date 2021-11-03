@@ -719,6 +719,7 @@
                                         <th>Student</th>
                                         <th>Date</th>
                                         <th>Attendance</th>
+                                        <th></th>
                                         
                                         
                                         
@@ -730,6 +731,12 @@
                                         <td>{{ attendance.student }}</td>
                                         <td>{{ attendance.attendanceDate }}</td>
                                         <td>{{ attendance.isPresent }}</td>
+                                        <td>
+                                            <a data-toggle="tooltip" data-placement="top" title="Edit attendance"
+                                                href="{% url 'editstudentattendance' attendance.id %}">
+                                                <i class="far fa-edit"></i>
+                                            </a>
+                                        </td>
                                         
                                         
                                         

@@ -342,7 +342,7 @@
                 <div class="row" id="member">
                     <div class="col-md">
                         <div class="card card-body">
-                            <table class="table table-sm"  >
+                            <table class="table table-sm" id="tab1"  >
                                 <tr>
                                     <th>Student</th>
                                     <th>Organization</th>
@@ -369,8 +369,10 @@
                                     
                                     
                                     <td class="attendance_pages" id="{{student.student.id}}">
-                                        <input id="rd1" name="{{ forloop.counter }}" type="radio" value="Present"  > Present </input>
-                                        <input id="rd2" name="{{ forloop.counter }}" type="radio" value="Absent" > Absent </input>
+                                        <input type="checkbox" value="{{student.student.id}}">
+                                        <!-- <input type="checkbox" checked="checked" name="student_data[]" > -->
+                                        <!-- <input id="rd1" name="{{ forloop.counter }}" type="radio" value="Present"  > Present </input>
+                                        <input id="rd2" name="{{ forloop.counter }}" type="radio" value="Absent" > Absent </input> -->
                                     </td>
 
                                     
@@ -399,7 +401,14 @@
                             <div class="action-form">
                                 <div class="form-group mb-0 text-left">
                                     
-                                    <button id="save" class="btn btn-info waves-effect waves-light" onclick="attFunction('{{student.student.id}}')"  >Save</button>
+                                    
+                                    <!-- <button type="submit" class="btn btn-info waves-effect waves-light" onclick="getvalues()">Save</button> -->
+                                    <a href="{% url 'viewstudentattendance' %}" onclick="getvalues()"
+                                        class="btn btn-info waves-effect waves-light">Save</a>
+                                
+                                    <!-- <input id="but1" type="button" value="Save" onclick="getvalues()"> -->
+                                    <!-- <b id="displayvalues"></b>
+                                    <b id="displayvalues1"></b> -->
                                     <a href="#" onclick="javascript:window.history.back(-1);return false;"
                                         class="btn btn-dark waves-effect waves-light">Cancel</a>
                                 </div>
@@ -736,7 +745,7 @@
 
 </script> -->
 
-<script>
+<!-- <script>
 
 function attFunction(varCode){
      
@@ -790,7 +799,7 @@ function attFunction(varCode){
         alert("not checked");
 
 };
-</script>
+</script> -->
 
 
 <!-- <script>
@@ -829,6 +838,70 @@ $(document).ready(function(){
 });
 
 </script>   -->
+
+<!-- <script>
+    $(document).on("click", "#save", function(){
+        console.log("save")
+        console.log($("input[name='student_data[]']"))
+        var data = $("input[name='student_data[]']").map(function(){ return $(this).val(); }).get()
+        console.log(data)
+
+        
+    })
+
+
+</script> -->
+
+<script>
+    function getvalues()
+    {
+        var selected = new Array();
+        var notselected = new Array();
+        
+        var checkbox = document.getElementById("tab1");
+        var selchk = checkbox.getElementsByTagName("input");
+        for(var i=0; i<selchk.length; i++)
+        {
+            if(selchk[i].checked)
+            {
+                selected.push(selchk[i].value);
+
+                
+            }
+            else
+            {
+                notselected.push(selchk[i].value);
+            }
+        }
+        
+        // if(selected.length>0)
+        // {
+        //     document.getElementById("displayvalues").innerHTML=selected
+        //     document.getElementById("displayvalues1").innerHTML=notselected
+        // }
+
+        $.ajax({
+
+            url: 'saveattendance',
+            data: {
+                'presentId': JSON.stringify(selected),
+                'absentId': JSON.stringify(notselected)
+                
+                
+
+                                    
+            },
+            success: function(data){
+                console.log(data);
+
+
+            }
+
+        });
+        
+
+    };
+</script>
 
 
 {% endblock %}

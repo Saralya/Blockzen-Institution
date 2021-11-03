@@ -20,6 +20,8 @@ urlpatterns = [
     ## CHANGE PASSWORD
     path('changepassword', views.changepassword, name = 'changepassword'),
 
+    path('resetuserpassword/<str:varCode>', views.resetuserpassword, name = 'resetuserpassword'),
+
 
     # RESET PASSWORD (djangor by default reset password views ase..see doc)
     # 1st step: submit email form..akta mail newar jonno form banabo jekhane reset link jabe
@@ -30,7 +32,9 @@ urlpatterns = [
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name="accesscontrol/password_reset_form.html"), name='password_reset_confirm'),
     # 4th step: password successfully changed
     path('reset_password_complete/', auth_views.PasswordResetCompleteView.as_view(template_name="accesscontrol/password_reset_done.html"), name='password_reset_complete'),
-
     # erpor settings.py e SMTP config korte hobe
+
+
+    
 
 ]

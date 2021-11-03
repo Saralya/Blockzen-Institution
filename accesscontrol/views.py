@@ -7,6 +7,8 @@ from django.contrib.auth.views import PasswordChangeView
 from django.contrib import messages
 from accesscontrol.forms import *
 from blockzenmaster.decorators import admin_only
+from ims import views
+from hrms import views
 
 
 ## LOGIN
@@ -136,9 +138,22 @@ def createuser(request):
 
         if form.is_valid():
             user = form.save()            
-            uname = form.cleaned_data.get('username')           
+            uname = form.cleaned_data.get('username')
+        
+            group = form.cleaned_data.get('groups')
+            data = list(group.values())  # eta korlam karon group will return a queryset..etake list na banale data access kora jabe na
+            print(data[0]["name"])
+            
 
-            return redirect('viewuser')        
+            if data[0]["name"] == 'Student':         
+                
+                
+                return redirect('createstudents')
+
+            else:
+                 return redirect('createemployee')
+
+
         
     context = {
         'headerText' : headerText,
@@ -169,6 +184,31 @@ def edituser(request, varCode):
         'form': form,
         }
     return render(request, 'blockzenmaster/entry.html', context)
+
+
+@admin_only
+def resetuserpassword(request, varCode):
+    headerText = 'Users'
+
+    user = User.objects.get(id = varCode)
+
+    form = ResetUserPasswordForm(instance = user)
+
+    if request.method == "POST":
+        form = ResetUserPasswordForm(request.POST, instance = user)
+
+        if form.is_valid():
+            user = form.save()            
+            # uname = form.cleaned_data.get('username')           
+
+            return redirect('viewuser')        
+        
+    context = {
+        'headerText' : headerText,
+        'form': form,
+        }
+    return render(request, 'blockzenmaster/entry.html', context)
+
 
 
 

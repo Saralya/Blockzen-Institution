@@ -300,6 +300,26 @@ class SessionForm(ModelForm):
         fields = ['session', 'month']
 
 
+class AttendanceForm(ModelForm):
+    
+    
+    
+    
+
+    class Meta:
+        model = StudentAttendance
+        fields = ['student',   'isPresent']
+
+    def __init__(self, *args, **kwargs):
+        super(AttendanceForm, self).__init__(*args, **kwargs)
+
+        self.fields['student'].widget.attrs['class'] = 'form-control'
+        self.fields['student'].label = 'Student'
+        self.fields['isPresent'].widget.attrs['class'] = 'form-control'
+        self.fields['isPresent'].label = 'Attendance'
+        
+
+
         
         
 

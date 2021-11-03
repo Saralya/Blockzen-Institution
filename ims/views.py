@@ -1,3 +1,4 @@
+from django.http.response import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User, Group
 from django.contrib.auth import update_session_auth_hash
@@ -7,6 +8,8 @@ from ims.forms import *
 from blockzenmaster.models import *
 from blockzenmaster.decorators import admin_only
 from .filters import StudentRegistrationFilter
+import json
+from django.core import serializers
 
 # Create your views here.
 
@@ -1104,12 +1107,39 @@ def studentattendance(request):
     }
     return render(request, 'blockzenmaster/entry.html', context)
 
-def saveattendance(request):
-    studentId = request.GET.get('userId')
-    attendance = request.GET.get('attval')
 
-    obj = StudentAttendance.objects.create(student= Students.objects.get(id=studentId) ,isPresent=attendance)
-    obj.save()
+
+def saveattendance(request):
+    studentpresentId = request.GET.get('presentId') # presentId ta string hisebe ashbe jetake studentpresentId te save korlam
+    studentabsentId = request.GET.get('absentId')
+    
+    
+    print('helooooooooooooooooooooo')
+    print(studentpresentId)
+    print(len(studentpresentId))
+
+    # string er upor loop chaliye element gula access korchi
+    i = 2
+    while i < len(studentpresentId):
+        print(studentpresentId[i])
+        newpresentId = studentpresentId[i]
+        obj = StudentAttendance.objects.create(student= Students.objects.get(id=newpresentId) ,isPresent='Present')
+        obj.save()
+        i += 4
+
+    i = 2
+    while i < len(studentabsentId):
+        
+        newabsentId = studentabsentId[i]
+        obj = StudentAttendance.objects.create(student= Students.objects.get(id=newabsentId) ,isPresent='Absent')
+        obj.save()
+        i += 4
+
+    print('yoooooooooooooooooooooo')
+
+    return redirect('viewstudentattendance')
+    
+    
 
 
 def viewstudentattendance(request):
@@ -1123,6 +1153,28 @@ def viewstudentattendance(request):
         'createData' : createData,
     }
     return render(request, 'ims/imsview.html', context)
+
+
+def editstudentattendance(request, varCode):
+    headerText = 'Edit attendance'
+    attendance = StudentAttendance.objects.get(id = varCode)
+    form = AttendanceForm(instance = attendance)
+
+    if request.method == 'POST':
+        form = AttendanceForm(request.POST, instance = attendance)
+        try:
+            if form.is_valid():
+                form.save()
+                return redirect('viewstudentattendance')   
+        except Exception as e:
+            messages.error(request, str(e)) 
+
+
+    context  = {
+        'form' : form,
+        'headerText' : headerText,
+    }
+    return render(request, 'blockzenmaster/entry.html', context)
     
     
 

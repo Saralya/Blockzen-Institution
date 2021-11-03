@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordChangeForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordChangeForm, AdminPasswordChangeForm
 from django.contrib.auth.models import User
 from django import forms
 
@@ -32,7 +32,7 @@ class CreateUserForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'username', 'email', 'password1', 'password2']
+        fields = ['first_name', 'last_name', 'username', 'email', 'password1', 'password2', 'groups']
 
     def __init__(self, *args, **kwargs):
         super(CreateUserForm, self).__init__(*args, **kwargs)
@@ -40,6 +40,7 @@ class CreateUserForm(UserCreationForm):
         self.fields['username'].widget.attrs['class'] = 'form-control'
         self.fields['password1'].widget.attrs['class'] = 'form-control'
         self.fields['password2'].widget.attrs['class'] = 'form-control'
+        self.fields['groups'].widget.attrs['class'] = 'form-control'
 
 
 class EditUserForm(ModelForm):
@@ -50,6 +51,22 @@ class EditUserForm(ModelForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email', 'is_active']
+
+
+class ResetUserPasswordForm(UserCreationForm):
+      
+
+    class Meta:
+        model = User
+        fields = ['password1', 'password2']
+
+    def __init__(self, *args, **kwargs):
+        super(ResetUserPasswordForm, self).__init__(*args, **kwargs)
+
+        
+        self.fields['password1'].widget.attrs['class'] = 'form-control'
+        self.fields['password2'].widget.attrs['class'] = 'form-control'
+        
 
 
 

@@ -79,6 +79,8 @@ urlpatterns = [
     path('studentattendance', views.studentattendance, name = 'studentattendance'),
     path('saveattendance', views.saveattendance, name = 'saveattendance'),
     path('viewstudentattendance', views.viewstudentattendance, name = 'viewstudentattendance'),
+    path('editstudentattendance/<str:varCode>', views.editstudentattendance, name = 'editstudentattendance'),
+    
 
     path('viewdetails/<str:varCode>', views.viewdetails, name = 'viewdetails'),
 
