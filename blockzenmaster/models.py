@@ -246,7 +246,7 @@ class Employees(models.Model):
         super().save(*args, **kwargs)
         img = Image.open(self.image.path)
 
-        if img.height > 300 or img.weight > 300:
+        if img.height > 300 or img.width > 300:
             output_size = (300,300)
             img.thumbnail(output_size)
             img.save(self.image.path)
@@ -696,6 +696,7 @@ class StudentRegistration(models.Model):
     roll = models.CharField(max_length=200, null= True, blank= True)
     classTeacher = models.ForeignKey(Employees, on_delete = models.SET_NULL, null = True, blank = True)
     session = models.ForeignKey(Session, on_delete = models.SET_NULL, null = True, blank = True)
+    subject = models.ManyToManyField(Subject)
     
     
     createdBy = models.CharField(max_length=200, null= True, blank= True)
@@ -717,6 +718,40 @@ class StudentAttendance(models.Model):
     
     isPresent = models.CharField(max_length=200, null= True, blank= True, choices = ATTENDANCE_CHOICES)
     
+
+    def __str__(self):
+        return self.student.get_emp_name
+
+
+class Exams(models.Model):
+    exam = models.CharField(max_length=200, null= True, blank= True)
+    description = models.CharField(max_length=200, null= True, blank= True)
+    
+    
+    
+
+    def __str__(self):
+        return self.exam
+
+
+class Terms(models.Model):
+    term = models.CharField(max_length=200, null= True, blank= True)
+    description = models.CharField(max_length=200, null= True, blank= True)
+    
+    
+    
+
+    def __str__(self):
+        return self.term
+
+
+class Results(models.Model):
+
+    student = models.ForeignKey(Students, on_delete=models.SET_NULL, null = True, blank = True)
+    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL, null = True, blank = True)
+    term = models.ForeignKey(Terms, on_delete=models.SET_NULL, null = True, blank = True)
+    exam = models.ForeignKey(Exams, on_delete=models.SET_NULL, null = True, blank = True)
+    mark = models.CharField(max_length=200, null= True, blank= True)
 
     def __str__(self):
         return self.student.get_emp_name

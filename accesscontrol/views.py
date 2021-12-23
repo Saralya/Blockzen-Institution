@@ -127,6 +127,27 @@ def viewuser(request):
     return render(request, 'blockzenmaster/view.html', context)
 
 
+
+def viewuseremail(request):
+    headerText = 'User Email'
+    
+    user = False  # eta na dile referenced before assignment error dekhabe
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        user = User.objects.get(username = username)
+        
+    
+
+    
+
+    context = {
+        'headerText' : headerText,
+        
+        'user' : user,
+    }
+    return render(request, 'accesscontrol/user_email.html', context)
+
+
 @admin_only
 def createuser(request):
     headerText = 'Users'
@@ -182,7 +203,7 @@ def edituser(request, varCode):
     context = {
         'headerText' : headerText,
         'form': form,
-        }
+    }
     return render(request, 'blockzenmaster/entry.html', context)
 
 

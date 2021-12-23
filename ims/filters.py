@@ -12,7 +12,7 @@ class StudentRegistrationFilter(django_filters.FilterSet):
     class Meta:
         model = StudentRegistration
         
-        fields = ['organization', 'branch', 'classes', 'section', 'roll']
+        fields = ['organization', 'branch', 'classes', 'section', 'roll', 'subject']
 
     
     

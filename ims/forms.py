@@ -220,12 +220,12 @@ class ClassDetailForm(ModelForm):
 
 class StudentRegistrationForm(ModelForm):
     
-   
+    subject = forms.ModelMultipleChoiceField(queryset=Subject.objects.all(),widget=forms.CheckboxSelectMultiple,required=True)
     
 
     class Meta:
         model = StudentRegistration
-        fields = ['student','organization','branch', 'classes', 'section', 'roll', 'classTeacher', 'session']
+        fields = ['student','organization','branch', 'classes', 'section', 'roll', 'classTeacher', 'session', 'subject']
 
     def __init__(self, *args, **kwargs):
         super(StudentRegistrationForm, self).__init__(*args, **kwargs)
@@ -317,6 +317,32 @@ class AttendanceForm(ModelForm):
         self.fields['student'].label = 'Student'
         self.fields['isPresent'].widget.attrs['class'] = 'form-control'
         self.fields['isPresent'].label = 'Attendance'
+
+
+class ExamForm(ModelForm):
+    
+    
+    exam = forms.CharField(max_length=200, label = 'Exam Name', widget=forms.TextInput(attrs={'class':'form-control'}), required=False)
+    description = forms.CharField(max_length=200, label = 'Description', widget=forms.TextInput(attrs={'class':'form-control'}), required=False)
+
+    class Meta:
+        model = Exams
+        fields = ['exam', 'description']
+
+
+class TermForm(ModelForm):
+    
+    
+    term = forms.CharField(max_length=200, label = 'Term Name', widget=forms.TextInput(attrs={'class':'form-control'}), required=False)
+    description = forms.CharField(max_length=200, label = 'Description', widget=forms.TextInput(attrs={'class':'form-control'}), required=False)
+
+    class Meta:
+        model = Terms
+        fields = ['term', 'description']
+
+
+
+        
         
 
 

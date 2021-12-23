@@ -1,0 +1,25 @@
+<h3>Provide username</h3>
+
+<p>Forgotten your password? Enter your username</p>
+
+<form method="POST">
+    {% csrf_token %}
+    <input type="text" name="username" value="" required>
+    <input type="submit" name="Get Email">
+
+    
+</form>
+
+
+{% if user %}
+    
+    <p>Use this email {{ user.email }} for your password resetting </p>
+    <a href="{% url 'reset_password' %}"> Reset Password</a>
+
+{% else %}
+    <p>invalid username</p>
+    
+{% endif %}
+
+
+

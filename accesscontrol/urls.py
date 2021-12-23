@@ -22,6 +22,8 @@ urlpatterns = [
 
     path('resetuserpassword/<str:varCode>', views.resetuserpassword, name = 'resetuserpassword'),
 
+    path('viewuseremail', views.viewuseremail, name = 'viewuseremail'),
+
 
     # RESET PASSWORD (djangor by default reset password views ase..see doc)
     # 1st step: submit email form..akta mail newar jonno form banabo jekhane reset link jabe

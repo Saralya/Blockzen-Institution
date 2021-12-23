@@ -578,8 +578,9 @@
                                         <th>Section</th>
                                         <th>Roll No</th>
                                         <th>Class Teacher</th>
-                                        <th>Start Date</th>
-                                        <th>End Date</th>
+                                        <th>Session</th>
+                                        <th>Subject</th>
+                                        
                                         <th>Creation Date</th>
                                         <th>Created By</th>
                                         <th></th>
@@ -597,8 +598,9 @@
                                         <td>{{ studentregistration.section }}</td>
                                         <td>{{ studentregistration.roll }}</td>
                                         <td>{{ studentregistration.classTeacher }}</td>
-                                        <td>{{ studentregistration.startDate }}</td>
-                                        <td>{{ studentregistration.endDate }}</td>
+                                        <td>{{ studentregistration.session }}</td>
+                                        <td>{{ studentregistration.subject }}</td>
+                                        
                                         <td>{{ studentregistration.creationDate }}</td>
                                         <td>{{ studentregistration.createdby }}</td>
                                         <td>
@@ -751,6 +753,8 @@
                                     <tr>
                                         <th>Session</th>
                                         <th>Month</th>
+                                        <th></th>
+                                        <th></th>
                                         
                                         
                                         
@@ -761,6 +765,99 @@
                                     <tr>
                                         <td>{{ session.session }}</td>
                                         <td>{{ session.month }}</td>
+                                        <td>
+                                            <a data-toggle="tooltip" data-placement="top" title="Edit session"
+                                                href="{% url 'editsession' session.id %}">
+                                                <i class="far fa-edit"></i>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a data-toggle="tooltip" data-placement="top" title="Delete session"
+                                                href="{% url 'deletesession' session.id %}">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </a>
+                                        </td>
+                                        
+                                        
+                                        
+                                        
+                                        
+                                    </tr>
+                                    
+                                    {% endfor %}
+                                </tbody>
+
+
+                                
+
+                                {% elif headerText == 'Exams' %}
+                                <thead>
+                                    <tr>
+                                        <th>Exam</th>
+                                        <th>Description</th>
+                                        <th></th>
+                                        <th></th>
+                                        
+                                        
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for exams in exams %}
+                                    <tr>
+                                        <td>{{ exams.exam }}</td>
+                                        <td>{{ exams.description }}</td>
+                                        <td>
+                                            <a data-toggle="tooltip" data-placement="top" title="Edit exams"
+                                                href="{% url 'editexams' exams.id %}">
+                                                <i class="far fa-edit"></i>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a data-toggle="tooltip" data-placement="top" title="Delete exams"
+                                                href="{% url 'deleteexams' exams.id %}">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </a>
+                                        </td>
+                                        
+                                        
+                                        
+                                        
+                                        
+                                    </tr>
+                                    
+                                    {% endfor %}
+                                </tbody>
+
+                                {% elif headerText == 'Terms' %}
+                                <thead>
+                                    <tr>
+                                        <th>Term</th>
+                                        <th>Description</th>
+                                        <th></th>
+                                        <th></th>
+                                        
+                                        
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for term in term %}
+                                    <tr>
+                                        <td>{{ term.term }}</td>
+                                        <td>{{ term.description }}</td>
+                                        <td>
+                                            <a data-toggle="tooltip" data-placement="top" title="Edit term"
+                                                href="{% url 'editexams' term.id %}">
+                                                <i class="far fa-edit"></i>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a data-toggle="tooltip" data-placement="top" title="Delete term"
+                                                href="{% url 'deleteexams' term.id %}">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </a>
+                                        </td>
                                         
                                         
                                         

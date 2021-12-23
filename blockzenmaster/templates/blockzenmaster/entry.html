@@ -249,6 +249,7 @@
                                     {{ myFilter.form.classes|as_crispy_field }}
                                     {{ myFilter.form.section|as_crispy_field }}
                                     {{ myFilter.form.roll|as_crispy_field }}
+                                    {{ myFilter.form.subject|as_crispy_field }}
 
                                     <button class="btn btn-primary" type="submit">Search</button>
                                 
@@ -271,18 +272,42 @@
                                     <th>Class</th>
                                     <th>Section</th>
                                     <th>Roll</th>
+                                    <th>Term</th>
+                                    <th>Exam</th>
+                                    <th>Mark</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
                                     
                                 </tr>
                 
                                 {% for student in student %}
                 
-                                <tr>
+                                <tr id = "{{student.student.id}}" class = "student">
                                     <td>{{student.student}}</td>
                                     <td>{{student.organization}}</td>
                                     <td>{{student.branch}}</td>
                                     <td>{{student.classes}}</td>
                                     <td>{{student.section}}</td>
                                     <td>{{student.roll}}</td>
+                                    <td>
+                                        <select  name="term" class="form-control">
+                                            {% for terms in terms %}
+                                                <option value="{{ terms.id}}">{{ terms.term}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </td>
+                                    <td>
+                                    <select  name="exam" class="form-control">
+                                        {% for exams in exams %}
+                                            <option value="{{ exams.id}}">{{ exams.exam}}</option>
+                                        {% endfor %}
+                                    </select>
+                                    </td>
+                                    <td>
+                                        <input  name="mark" type="text" class = "form-control" >
+                                    </td>
                                     <td>
                                         <a data-toggle="tooltip" data-placement="top" title="Student Details"
                                             href="{% url 'viewdetails' student.student.id %}"> <!--student field dhore Students model e giye sekhan theke id ante hobe-->
@@ -301,6 +326,9 @@
                                             <i class="fas fa-trash-alt"></i>
                                         </a>
                                     </td>
+
+                                    
+                                    
                                   
                                 </tr>
                                 {% empty %}
@@ -310,6 +338,22 @@
                                 {% endfor %}
                 
                             </table>
+                            <div class="action-form">
+                                <div class="form-group mb-0 text-left">
+                                    
+                                    
+                                    <!-- <button type="submit" class="btn btn-info waves-effect waves-light" onclick="getvalues()">Save</button> -->
+                                    <a  onclick="getresults()"
+                                        class="btn btn-info waves-effect waves-light">Save</a>
+                                
+                                    <!-- <input id="but1" type="button" value="Save" onclick="getvalues()"> -->
+                                    <!-- <b id="displayvalues"></b>
+                                    <b id="displayvalues1"></b> -->
+                                    <a href="#" onclick="javascript:window.history.back(-1);return false;"
+                                        class="btn btn-dark waves-effect waves-light">Cancel</a>
+                                </div>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -368,7 +412,7 @@
                                    
                                     
                                     
-                                    <td class="attendance_pages" id="{{student.student.id}}">
+                                    <td>
                                         <input type="checkbox" value="{{student.student.id}}">
                                         <!-- <input type="checkbox" checked="checked" name="student_data[]" > -->
                                         <!-- <input id="rd1" name="{{ forloop.counter }}" type="radio" value="Present"  > Present </input>
@@ -403,7 +447,7 @@
                                     
                                     
                                     <!-- <button type="submit" class="btn btn-info waves-effect waves-light" onclick="getvalues()">Save</button> -->
-                                    <a href="{% url 'viewstudentattendance' %}" onclick="getvalues()"
+                                    <a  href="{% url 'viewstudentattendance' %}" onclick="getvalues()"
                                         class="btn btn-info waves-effect waves-light">Save</a>
                                 
                                     <!-- <input id="but1" type="button" value="Save" onclick="getvalues()"> -->
@@ -543,6 +587,7 @@
                                     <!--<label for="inputname" class="control-label col-form-label">First Name</label> -->
                                     <!--<input type="text" class="form-control" id="inputname" placeholder="First Name Here">-->
                                     {{ form }}
+                                    
                                 </div>
                             </div>
                         </div>
@@ -901,6 +946,48 @@ $(document).ready(function(){
         
 
     };
+</script>
+
+<script>
+    function getresults(){
+        var studentresult = [];
+        
+        var studentlist = document.getElementsByClassName("student")
+        var subject = document.getElementById("id_subject").value
+        console.log(subject)
+        console.log(studentlist)
+        var len = studentlist.length
+        for(var i=0; i<len; i++){
+            
+            let temp = {
+                studentId: studentlist[i].id,
+                term: studentlist[i].children[6].children[0].value,
+                exam: studentlist[i].children[7].children[0].value,
+                mark: studentlist[i].children[8].children[0].value,
+                subject: subject
+            }
+            
+
+            studentresult.push(temp)
+            
+        }
+
+       for(var i=0; i<studentresult.length; i++){
+        $.ajax({
+
+            url: 'saveresult',
+            data: studentresult[i],
+            success: function(data){
+                console.log(data);
+
+
+            }
+
+        });
+       }
+        
+
+    }
 </script>
 
 

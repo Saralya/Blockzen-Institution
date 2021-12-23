@@ -10,6 +10,7 @@ from blockzenmaster.decorators import admin_only
 from .filters import StudentRegistrationFilter
 import json
 from django.core import serializers
+from django.urls import reverse
 
 # Create your views here.
 
@@ -1005,8 +1006,11 @@ def createstudentregistration(request):
         form = StudentRegistrationForm(request.POST)
         try:
             if form.is_valid():
+                subject = form.cleaned_data["subject"]
+                
                 data = form.save(commit = False)
                 data.createdby = request.user
+                data.subject = subject
                 data.save()
                 return redirect('viewstudentregistration') 
         except Exception as e:
@@ -1076,13 +1080,19 @@ def searchstudents(request):
     myFilter = StudentRegistrationFilter(request.GET, queryset=student)
 
     student = myFilter.qs
+
+    exams = Exams.objects.all
+    terms = Terms.objects.all
+    
     
 
     context  = {
         
         'headerText' : headerText,
         'myFilter' : myFilter,
-        'student' : student
+        'student' : student,
+        'exams' : exams,
+        'terms' : terms,
         
     }
     return render(request, 'blockzenmaster/entry.html', context)
@@ -1135,9 +1145,28 @@ def saveattendance(request):
         obj.save()
         i += 4
 
-    print('yoooooooooooooooooooooo')
+    
 
-    return redirect('viewstudentattendance')
+    return HttpResponse("ok")
+
+
+def saveresult(request):
+    
+    studentId = request.GET.get('studentId') 
+    term = request.GET.get('term')
+    exam = request.GET.get('exam')
+    mark = request.GET.get('mark')
+    subject = request.GET.get('subject')
+    
+    
+    
+
+    obj = Results.objects.create(student= Students.objects.get(id=studentId) ,term=Terms.objects.get(id=term), exam=Exams.objects.get(id=exam), mark=mark, subject=Subject.objects.get(id=subject))
+    obj.save()
+    print(obj)
+    
+
+    return HttpResponse("ok")
     
     
 
@@ -1184,6 +1213,7 @@ def editstudentattendance(request, varCode):
 def viewdetails(request, varCode):
     headerText = 'Student Profile'
     student = Students.objects.get(id = varCode)
+    print(student)
 
     
 
@@ -1320,4 +1350,175 @@ def deletesession(request, varCode):
         'returnUrl' : returnUrl,
     }
     return render(request, 'blockzenmaster/entry.html', context)
+
+
+
+
+
+
+
+
+def viewexams(request):
+    headerText = 'Exams'
+    createData = 'createexams'
+    exams = Exams.objects.all()
+
+    context  = {
+        'exams' : exams,
+        'headerText' : headerText,
+        'createData' : createData,
+    }
+    return render(request, 'ims/imsview.html', context)
+
+
+def createexams(request):
+    headerText = 'Exams'
+    form = ExamForm()
+
+    if request.method == 'POST':
+        form = ExamForm(request.POST)
+        try:
+            if form.is_valid():
+                data = form.save(commit = False)
+                data.createdby = request.user
+                data.save()
+                return redirect('viewexams') 
+        except Exception as e:
+            messages.error(request, str(e))
+         
+
+    context  = {
+        'form' : form,
+        'headerText' : headerText,
+    }
+    return render(request, 'blockzenmaster/entry.html', context)
+
+
+def editexams(request, varCode):
+    headerText = 'Exams'
+    exams = Exams.objects.get(id = varCode)
+    form = ExamForm(instance = exams)
+
+    if request.method == 'POST':
+        form = ExamForm(request.POST, instance = exams)
+        try:
+            if form.is_valid():
+                form.save()
+                return redirect('viewexams')   
+        except Exception as e:
+            messages.error(request, str(e)) 
+
+
+    context  = {
+        'form' : form,
+        'headerText' : headerText,
+    }
+    return render(request, 'blockzenmaster/entry.html', context)
+
+
+def deleteexams(request, varCode):
+    headerText = 'Delete'
+    deletedItem = 'Exams'
+    returnUrl = 'viewexams'
+
+    deletedVal = Exams.objects.get(id = varCode)
+
+    if request.method == 'POST':
+        try:
+            deletedVal.delete()
+            return redirect('viewexams')  
+        except Exception as e:
+            messages.error(request, str(e))  
+
+    context  = {
+        'headerText' : headerText,
+        'deletedItem' : deletedItem,
+        'deletedVal' : deletedVal,
+        'returnUrl' : returnUrl,
+    }
+    return render(request, 'blockzenmaster/entry.html', context)
+
+
+
+def viewterms(request):
+    headerText = 'Terms'
+    createData = 'createterms'
+    term = Terms.objects.all()
+
+    context  = {
+        'term' : term,
+        'headerText' : headerText,
+        'createData' : createData,
+    }
+    return render(request, 'ims/imsview.html', context)
+
+
+def createterms(request):
+    headerText = 'Terms'
+    form = TermForm()
+
+    if request.method == 'POST':
+        form = TermForm(request.POST)
+        try:
+            if form.is_valid():
+                data = form.save(commit = False)
+                data.createdby = request.user
+                data.save()
+                return redirect('viewterms') 
+        except Exception as e:
+            messages.error(request, str(e))
+         
+
+    context  = {
+        'form' : form,
+        'headerText' : headerText,
+    }
+    return render(request, 'blockzenmaster/entry.html', context)
+
+
+def editterms(request, varCode):
+    headerText = 'Terms'
+    term = Terms.objects.get(id = varCode)
+    form = TermForm(instance = term)
+
+    if request.method == 'POST':
+        form = TermForm(request.POST, instance = term)
+        try:
+            if form.is_valid():
+                form.save()
+                return redirect('viewterms')   
+        except Exception as e:
+            messages.error(request, str(e)) 
+
+
+    context  = {
+        'form' : form,
+        'headerText' : headerText,
+    }
+    return render(request, 'blockzenmaster/entry.html', context)
+
+
+def deleteterms(request, varCode):
+    headerText = 'Delete'
+    deletedItem = 'Term'
+    returnUrl = 'viewterms'
+
+    deletedVal = Terms.objects.get(id = varCode)
+
+    if request.method == 'POST':
+        try:
+            deletedVal.delete()
+            return redirect('viewterms')  
+        except Exception as e:
+            messages.error(request, str(e))  
+
+    context  = {
+        'headerText' : headerText,
+        'deletedItem' : deletedItem,
+        'deletedVal' : deletedVal,
+        'returnUrl' : returnUrl,
+    }
+    return render(request, 'blockzenmaster/entry.html', context)
+
+
 

@@ -74,6 +74,20 @@ urlpatterns = [
     path('editsession/<str:varCode>', views.editsession, name = 'editsession'),
     path('deletesession/<str:varCode>', views.deletesession, name = 'deletesession'),
 
+    path('viewexams', views.viewexams, name = 'viewexams'),
+    path('createexams', views.createexams, name = 'createexams'),
+    path('editexams/<str:varCode>', views.editexams, name = 'editexams'),
+    path('deleteexams/<str:varCode>', views.deleteexams, name = 'deleteexams'),
+
+    path('viewterms', views.viewterms, name = 'viewterms'),
+    path('createterms', views.createterms, name = 'createterms'),
+    path('editterms/<str:varCode>', views.editterms, name = 'editterms'),
+    path('deleteterms/<str:varCode>', views.deleteterms, name = 'deleteterms'),
+
+
+
+    
+
 
     path('searchstudents', views.searchstudents, name = 'searchstudents'),
     path('studentattendance', views.studentattendance, name = 'studentattendance'),
@@ -83,6 +97,10 @@ urlpatterns = [
     
 
     path('viewdetails/<str:varCode>', views.viewdetails, name = 'viewdetails'),
+
+    path('saveresult', views.saveresult, name = 'saveresult'),
+
+    
 
     path('ajax/load_branches/', views.load_branches, name='ajax_load_branches'),
     path('ajax/load_classes/', views.load_classes, name='ajax_load_classes'),
