@@ -1171,8 +1171,42 @@ def saveresult(request):
     
 
 
+def viewresult(request):
+    headerText = 'View result'
+    createData = 'searchstudents'
+    result = Results.objects.all()
+    
+    context = {
+        'headerText' : headerText,
+        'result' : result,
+        'createData' : createData,
+    }
+    return render(request, 'ims/imsview.html', context)
+
+def editresult(request, varCode):
+    headerText = 'Edit result'
+    result = Results.objects.get(id = varCode)
+    form = ResultForm(instance = result)
+
+    if request.method == 'POST':
+        form = ResultForm(request.POST, instance = result)
+        try:
+            if form.is_valid():
+                form.save()
+                return redirect('viewresult')   
+        except Exception as e:
+            messages.error(request, str(e)) 
+
+
+    context  = {
+        'form' : form,
+        'headerText' : headerText,
+    }
+    return render(request, 'blockzenmaster/entry.html', context)
+
+
 def viewstudentattendance(request):
-    headerText = 'View attendance'
+    headerText = 'View result'
     createData = 'studentattendance'
     attendance = StudentAttendance.objects.all()
     
@@ -1509,6 +1543,87 @@ def deleteterms(request, varCode):
         try:
             deletedVal.delete()
             return redirect('viewterms')  
+        except Exception as e:
+            messages.error(request, str(e))  
+
+    context  = {
+        'headerText' : headerText,
+        'deletedItem' : deletedItem,
+        'deletedVal' : deletedVal,
+        'returnUrl' : returnUrl,
+    }
+    return render(request, 'blockzenmaster/entry.html', context)
+
+
+def viewfees(request):
+    headerText = 'Fees'
+    createData = 'createfees'
+    fees = Fees.objects.all()
+
+    context  = {
+        'fees' : fees,
+        'headerText' : headerText,
+        'createData' : createData,
+    }
+    return render(request, 'ims/imsview.html', context)
+
+
+def createfees(request):
+    headerText = 'Fees'
+    form = FeesForm()
+
+    if request.method == 'POST':
+        form = FeesForm(request.POST)
+        try:
+            if form.is_valid():
+                data = form.save(commit = False)
+                data.createdby = request.user
+                data.save()
+                return redirect('viewfees') 
+        except Exception as e:
+            messages.error(request, str(e))
+         
+
+    context  = {
+        'form' : form,
+        'headerText' : headerText,
+    }
+    return render(request, 'blockzenmaster/entry.html', context)
+
+
+def editfees(request, varCode):
+    headerText = 'Fees'
+    fees = Fees.objects.get(id = varCode)
+    form = FeesForm(instance = fees)
+
+    if request.method == 'POST':
+        form = FeesForm(request.POST, instance = fees)
+        try:
+            if form.is_valid():
+                form.save()
+                return redirect('viewfees')   
+        except Exception as e:
+            messages.error(request, str(e)) 
+
+
+    context  = {
+        'form' : form,
+        'headerText' : headerText,
+    }
+    return render(request, 'blockzenmaster/entry.html', context)
+
+
+def deletefees(request, varCode):
+    headerText = 'Delete'
+    deletedItem = 'Fee'
+    returnUrl = 'viewfees'
+
+    deletedVal = Fees.objects.get(id = varCode)
+
+    if request.method == 'POST':
+        try:
+            deletedVal.delete()
+            return redirect('viewfees')  
         except Exception as e:
             messages.error(request, str(e))  
 

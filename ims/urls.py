@@ -84,6 +84,11 @@ urlpatterns = [
     path('editterms/<str:varCode>', views.editterms, name = 'editterms'),
     path('deleteterms/<str:varCode>', views.deleteterms, name = 'deleteterms'),
 
+    path('viewfees', views.viewfees, name = 'viewfees'),
+    path('createfees', views.createfees, name = 'createfees'),
+    path('editfees/<str:varCode>', views.editfees, name = 'editfees'),
+    path('deletefees/<str:varCode>', views.deletefees, name = 'deletefees'),
+
 
 
     
@@ -99,6 +104,8 @@ urlpatterns = [
     path('viewdetails/<str:varCode>', views.viewdetails, name = 'viewdetails'),
 
     path('saveresult', views.saveresult, name = 'saveresult'),
+    path('viewresult', views.viewresult, name = 'viewresult'),
+    path('editresult/<str:varCode>', views.editresult, name = 'editresult'),
 
     
 

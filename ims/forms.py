@@ -319,6 +319,31 @@ class AttendanceForm(ModelForm):
         self.fields['isPresent'].label = 'Attendance'
 
 
+class ResultForm(ModelForm):
+    
+    
+    
+    
+
+    class Meta:
+        model = Results
+        fields = ['term', 'exam', 'mark', ]
+
+    def __init__(self, *args, **kwargs):
+        super(ResultForm, self).__init__(*args, **kwargs)
+
+        
+        self.fields['term'].widget.attrs['class'] = 'form-control'
+        self.fields['term'].label = 'Term'
+        self.fields['exam'].widget.attrs['class'] = 'form-control'
+        self.fields['exam'].label = 'Exam'
+        self.fields['mark'].widget.attrs['class'] = 'form-control'
+        self.fields['mark'].label = 'Mark'
+
+
+        
+
+
 class ExamForm(ModelForm):
     
     
@@ -339,6 +364,17 @@ class TermForm(ModelForm):
     class Meta:
         model = Terms
         fields = ['term', 'description']
+
+
+class FeesForm(ModelForm):
+    
+    
+    fees = forms.CharField(max_length=200, label = 'Fee Name', widget=forms.TextInput(attrs={'class':'form-control'}), required=False)
+    description = forms.CharField(max_length=200, label = 'Description', widget=forms.TextInput(attrs={'class':'form-control'}), required=False)
+
+    class Meta:
+        model = Fees
+        fields = ['fees', 'description']
 
 
 

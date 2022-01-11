@@ -748,6 +748,43 @@
                                     {% endfor %}
                                 </tbody>
 
+                                {% elif headerText == 'View result' %}
+                                <thead>
+                                    <tr>
+                                        <th>Student</th>
+                                        <th>Subject</th>
+                                        <th>Term</th>
+                                        <th>Exam</th>
+                                        <th>Mark</th>
+                                        <th></th>
+                                        
+                                        
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for result in result %}
+                                    <tr>
+                                        <td>{{ result.student }}</td>
+                                        <td>{{ result.subject }}</td>
+                                        <td>{{ result.term }}</td>
+                                        <td>{{ result.exam }}</td>
+                                        <td>{{ result.mark }}</td>
+                                        <td>
+                                            <a data-toggle="tooltip" data-placement="top" title="Edit result"
+                                                href="{% url 'editresult' result.id %}">
+                                                <i class="far fa-edit"></i>
+                                            </a>
+                                        </td>
+                                        
+                                        
+                                        
+                                        
+                                    </tr>
+                                    
+                                    {% endfor %}
+                                </tbody>
+
                                 {% elif headerText == 'Session' %}
                                 <thead>
                                     <tr>
@@ -855,6 +892,45 @@
                                         <td>
                                             <a data-toggle="tooltip" data-placement="top" title="Delete term"
                                                 href="{% url 'deleteexams' term.id %}">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </a>
+                                        </td>
+                                        
+                                        
+                                        
+                                        
+                                        
+                                    </tr>
+                                    
+                                    {% endfor %}
+                                </tbody>
+
+                                {% elif headerText == 'Fees' %}
+                                <thead>
+                                    <tr>
+                                        <th>Fee Name</th>
+                                        <th>Description</th>
+                                        <th></th>
+                                        <th></th>
+                                        
+                                        
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for fees in fees %}
+                                    <tr>
+                                        <td>{{ fees.fees }}</td>
+                                        <td>{{ fees.description }}</td>
+                                        <td>
+                                            <a data-toggle="tooltip" data-placement="top" title="Edit fees"
+                                                href="{% url 'editfees' fees.id %}">
+                                                <i class="far fa-edit"></i>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a data-toggle="tooltip" data-placement="top" title="Delete fees"
+                                                href="{% url 'deletefees' fees.id %}">
                                                 <i class="fas fa-trash-alt"></i>
                                             </a>
                                         </td>
